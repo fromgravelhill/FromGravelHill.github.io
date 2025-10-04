@@ -4,7 +4,6 @@
 ![Static Site](https://img.shields.io/badge/Site-type%3A%20static-blue)
 ![GitHub Pages](https://img.shields.io/badge/Hosted%20on-GitHub%20Pages-222)
 [![Pages Build](https://github.com/fromgravelhill/FromGravelHill.github.io/actions/workflows/pages/pages-build-deployment/badge.svg?branch=main)](https://github.com/fromgravelhill/FromGravelHill.github.io/actions/workflows/pages/pages-build-deployment)
-[![CI](https://github.com/fromgravelhill/FromGravelHill.github.io/actions/workflows/ci.yml/badge.svg)](https://github.com/fromgravelhill/FromGravelHill.github.io/actions/workflows/ci.yml)
 ![Code License](https://img.shields.io/badge/Code%20License-MIT-green)
 ![Content License](https://img.shields.io/badge/Content%20License-CC%20BY--NC--ND%204.0-blue)
 
