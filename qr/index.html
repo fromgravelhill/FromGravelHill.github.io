@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QR Code Generator · From Gravel Hill</title>
+  <meta name="description" content="Generate QR codes for URLs or text." />
+  <meta name="theme-color" content="#0f172a" />
+  <style>
+
+    :root {
+      --bg: #0b1020;
+      --fg: #e5e7eb;
+      --muted: #a3a3a3;
+      --card: #11152a;
+      --card-hover: #1a1f3a;
+      --accent: #7dd3fc;
+      --btn-fg: #0b1020;
+      --ring: rgba(125, 211, 252, .4);
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f8fafc;
+        --fg: #0b1020;
+        --muted: #4b5563;
+        --card: #ffffff;
+        --card-hover: #f1f5f9;
+        --accent: #0369a1;
+        --btn-fg: #ffffff;
+        --ring: rgba(3, 105, 161, .25);
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 70% -10%, rgba(125,211,252,.12), transparent),
+                  radial-gradient(800px 400px at 0% 100%, rgba(99,102,241,.10), transparent),
+                  var(--bg);
+      color: var(--fg);
+    }
+    a { color: inherit; }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 48px 20px 32px; }
+    .top { display:flex; align-items:center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+    .brand a { text-decoration:none; font-weight:700; letter-spacing:.02em; }
+    .pill {
+      display:inline-block;
+      font-size: .8rem;
+      color: var(--muted);
+      border: 1px solid rgba(148,163,184,.25);
+      padding: .25rem .6rem;
+      border-radius: 9999px;
+    }
+    h1 { margin: 10px 0 6px; font-size: clamp(1.5rem, 3.2vw, 2.1rem); line-height: 1.15; }
+    p.lead { margin: 0 0 18px; color: var(--muted); }
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(148,163,184,.15);
+      border-radius: 16px;
+      padding: 18px;
+      transition: transform .15s ease, background-color .15s ease, border-color .15s ease;
+    }
+    .card:hover { background: var(--card-hover); transform: translateY(-1px); border-color: rgba(148,163,184,.28); }
+    .btn {
+      display:inline-block;
+      text-decoration:none;
+      font-weight:600;
+      border-radius: 10px;
+      padding: .55rem .8rem;
+      border:1px solid var(--accent);
+      background: var(--accent);
+      color: var(--btn-fg);
+    }
+    .btn.ghost { background: transparent; color: var(--accent); }
+    .btn:focus { outline:none; box-shadow: 0 0 0 4px var(--ring); }
+    .k { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: .92rem; }
+    pre {
+      background: rgba(2,6,23,.35);
+      border: 1px solid rgba(148,163,184,.18);
+      padding: 12px;
+      border-radius: 12px;
+      overflow:auto;
+    }
+    @media (prefers-color-scheme: light) {
+      pre { background: rgba(148,163,184,.18); }
+    }
+    .grid { display:grid; gap: 14px; }
+    footer { margin-top: 28px; padding-top: 14px; border-top: 1px dashed rgba(148,163,184,.25); color: var(--muted); font-size: .9rem; }
+
+
+    :root {
+      --gap: 12px;
+      --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    .qr-app, .qr-app * { box-sizing: border-box; }
+
+    .qr-app {
+      font-family: var(--font);
+      line-height: 1.35;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .qr-app .card {
+      border-radius: 14px;
+      padding: 20px 18px 22px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+    }
+
+    .qr-app .row {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: var(--gap);
+      align-items: center;
+      margin-bottom: var(--gap);
+    }
+
+    .qr-app .row > label {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .qr-app input[type="text"],
+    .qr-app input[type="number"],
+    .qr-app select {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      outline: none;
+    }
+
+    .qr-app input[type="text"]:focus,
+    .qr-app input[type="number"]:focus,
+    .qr-app select:focus {
+      border-color: #0ea5e9;
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.25);
+    }
+
+    .qr-app .hint {
+      font-size: 0.9rem;
+      color: #64748b;
+      margin: 0 0 14px;
+    }
+
+    .qr-app .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .qr-app button {
+      cursor: pointer;
+      border: 0;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .qr-app button.primary {
+      background: #0ea5e9;
+      color: white;
+    }
+    .qr-app button.secondary {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .qr-app .preview {
+      display: grid;
+      grid-template-columns: 1fr 240px;
+      gap: 16px;
+      align-items: start;
+      margin-top: 18px;
+    }
+
+    .qr-app .qr-box {
+      background: #ffffff;
+      border: 1px dashed #cbd5e1;
+      border-radius: 14px;
+      padding: 12px;
+      display: grid;
+      place-items: center;
+      min-height: 260px;
+    }
+
+    .qr-app .meta {
+      font-size: 0.85rem;
+      color: #475569;
+      background: #f1f5f9;
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .qr-app code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+
+    @media (max-width: 820px) {
+      .qr-app .preview { grid-template-columns: 1fr; }
+      .qr-app .row { grid-template-columns: 1fr; }
+      .qr-app .row > label { margin-bottom: 4px; }
+    }
+    .qr-app .muted { color: #64748b; }
+    .qr-app .small { font-size: 0.8rem; }
+
+    /* Page framing */
+    .wrap { max-width: 1100px; }
+    .qr-app .card { background: var(--card); border: 1px solid rgba(148,163,184,.15); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand"><a href="/">← FromGravelHill.ca</a></div>
+      <div class="pill">Tool</div>
+    </div>
+
+    <header style="margin-bottom:14px;">
+      <h1>QR Code Generator</h1>
+      <p class="lead">Paste a link or text, choose size/options, and download the QR image.</p>
+    </header>
+
+<div class="qr-app">
+  <div class="card">
+    <h1>
+      QR Code Generator
+    </h1>
+
+    <div class="row">
+      <label for="text">Content</label>
+      <input id="text" type="text" placeholder="Paste URL or text…" />
+    </div>
+
+    <div class="row">
+      <label for="size">Size (px)</label>
+      <div class="row" style="grid-template-columns: 1fr 1fr; gap: 10px; margin:0;">
+        <input id="size" type="number" min="128" max="2048" value="512" />
+        <select id="ecl" aria-label="Error correction level">
+          <option value="L">ECL: L (7%)</option>
+          <option value="M" selected>ECL: M (15%)</option>
+          <option value="Q">ECL: Q (25%)</option>
+          <option value="H">ECL: H (30%)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <label for="margin">Margin (modules)</label>
+      <input id="margin" type="number" min="0" max="12" value="2" />
+    </div>
+
+    <p class="hint">
+      Tip: use higher ECL (Q/H) for codes that may be printed small, placed outdoors, or partially obscured.
+    </p>
+
+    <div class="actions">
+      <button class="primary" id="make">Generate</button>
+      <button class="secondary" id="download" disabled>Download PNG</button>
+      <button class="secondary" id="clear">Clear</button>
+    </div>
+
+    <div class="preview">
+      <div class="qr-box" id="qrBox" aria-live="polite" aria-label="QR preview"></div>
+      <div class="meta">
+        <div><strong>Status:</strong> <span id="status" class="muted">Waiting…</span></div>
+        <div style="margin-top:10px;"><strong>Current:</strong></div>
+        <div class="small" style="margin-top:6px;"><code id="metaText">-</code></div>
+        <div class="small muted" style="margin-top:10px;">Works fully in-browser. No data is sent anywhere.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Load qrcode.min.js from your fork's GitHub Pages site -->
+<script src="https://atrion.github.io/qrcodejs/qrcode.min.js"></script>
+<script>
+  const elText = document.getElementById('text');
+  const elSize = document.getElementById('size');
+  const elECL = document.getElementById('ecl');
+  const elMargin = document.getElementById('margin');
+  const elMake = document.getElementById('make');
+  const elDownload = document.getElementById('download');
+  const elClear = document.getElementById('clear');
+  const qrBox = document.getElementById('qrBox');
+  const status = document.getElementById('status');
+  const metaText = document.getElementById('metaText');
+
+  let qr = null;
+
+  function setStatus(text) {
+    status.textContent = text;
+  }
+
+  function sanitize(v) {
+    return (v || '').toString().trim();
+  }
+
+  function generate() {
+    const text = sanitize(elText.value);
+    if (!text) {
+      setStatus('Please enter content first.');
+      metaText.textContent = '-';
+      elDownload.disabled = true;
+      qrBox.innerHTML = '';
+      return;
+    }
+
+    const size = Math.max(128, Math.min(2048, parseInt(elSize.value || '512', 10)));
+    const ecl = elECL.value || 'M';
+    const margin = Math.max(0, Math.min(12, parseInt(elMargin.value || '2', 10)));
+
+    // Clear prior
+    qrBox.innerHTML = '';
+
+    // QRCode.js options:
+    // correctLevel: QRCode.CorrectLevel.[L|M|Q|H]
+    qr = new QRCode(qrBox, {
+      text,
+      width: size,
+      height: size,
+      correctLevel: QRCode.CorrectLevel[ecl],
+    });
+
+    // qrcodejs doesn't expose margin directly; we emulate margin by wrapping canvas in padding
+    qrBox.style.padding = `${margin * 4}px`; // simple scale
+    qrBox.style.borderRadius = '14px';
+    qrBox.style.background = '#fff';
+
+    metaText.textContent = text;
+    setStatus('Generated.');
+    elDownload.disabled = false;
+  }
+
+  function downloadPNG() {
+    if (!qrBox.querySelector('img') && !qrBox.querySelector('canvas')) return;
+
+    // qrcodejs may render as img or canvas depending on browser
+    const img = qrBox.querySelector('img');
+    const canvas = qrBox.querySelector('canvas');
+
+    let dataURL = '';
+    if (img && img.src) dataURL = img.src;
+    else if (canvas) dataURL = canvas.toDataURL('image/png');
+
+    if (!dataURL) return;
+
+    const a = document.createElement('a');
+    const safe = (sanitize(elText.value).slice(0, 32) || 'qr').replace(/[^a-z0-9-_]+/gi, '_');
+    a.download = `${safe}.png`;
+    a.href = dataURL;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  function clearAll() {
+    elText.value = '';
+    metaText.textContent = '-';
+    qrBox.innerHTML = '';
+    elDownload.disabled = true;
+    setStatus('Cleared.');
+  }
+
+  elMake.addEventListener('click', generate);
+  elDownload.addEventListener('click', downloadPNG);
+  elClear.addEventListener('click', clearAll);
+
+  elText.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') generate();
+  });
+
+  // First render if user has query param
+  const qp = new URLSearchParams(location.search);
+  if (qp.get('text')) {
+    elText.value = qp.get('text');
+    generate();
+  } else {
+    setStatus('Waiting…');
+  }
+</script>
+
+    <footer>
+      <div>&copy; <span id="year"></span> FromGravelHill.ca · Last updated: 2026-02-27</div>
+      <div style="margin-top:6px;">Return to <a href="/">FromGravelHill.ca</a></div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

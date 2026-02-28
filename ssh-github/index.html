@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SSH & GitHub Keys · From Gravel Hill</title>
+  <meta name="description" content="How to create SSH keys and connect to GitHub safely on Windows, Linux, and macOS." />
+  <meta name="theme-color" content="#0f172a" />
+  <style>
+    :root {
+      --bg: #0b1020;
+      --fg: #e5e7eb;
+      --muted: #a3a3a3;
+      --card: #11152a;
+      --card-hover: #1a1f3a;
+      --accent: #60a5fa;
+      --btn-fg: #0b1020;
+      --ring: rgba(96, 165, 250, .35);
+      --line: rgba(148,163,184,.22);
+      --ok: #34d399;
+      --warn: #fb7185;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f8fafc;
+        --fg: #0b1020;
+        --muted: #4b5563;
+        --card: #ffffff;
+        --card-hover: #f1f5f9;
+        --accent: #1d4ed8;
+        --btn-fg: #ffffff;
+        --ring: rgba(29, 78, 216, .22);
+        --line: rgba(148,163,184,.45);
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      background:
+        radial-gradient(1200px 600px at 70% -10%, rgba(96,165,250,.14), transparent),
+        radial-gradient(800px 400px at 0% 100%, rgba(99,102,241,.10), transparent),
+        var(--bg);
+      color: var(--fg);
+    }
+    a { color: inherit; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 48px 20px 36px; }
+    .top { display:flex; align-items:center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+    .brand a { text-decoration:none; font-weight:700; letter-spacing:.02em; }
+    .pill { display:inline-block; font-size: .8rem; color: var(--muted); border: 1px solid var(--line); padding: .25rem .6rem; border-radius: 9999px; }
+    h1 { margin: 10px 0 8px; font-size: clamp(1.6rem, 3.2vw, 2.2rem); line-height: 1.15; }
+    p.lead { margin: 0 0 18px; color: var(--muted); max-width: 75ch; }
+    .grid { display:grid; gap: 14px; }
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(148,163,184,.15);
+      border-radius: 18px;
+      padding: 18px;
+      transition: transform .15s ease, background-color .15s ease, border-color .15s ease;
+    }
+    .card:hover { background: var(--card-hover); transform: translateY(-1px); border-color: rgba(148,163,184,.28); }
+    .k { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: .92rem; }
+    .small { font-size: .92rem; color: var(--muted); }
+    .callout { border-left: 4px solid var(--accent); padding: 14px 16px; border-radius: 16px; }
+    .good { border-left-color: var(--ok); }
+    .warn { border-left-color: var(--warn); }
+    pre {
+      background: rgba(2,6,23,.35);
+      border: 1px solid rgba(148,163,184,.18);
+      padding: 12px;
+      border-radius: 14px;
+      overflow:auto;
+      margin: 10px 0 0;
+    }
+    @media (prefers-color-scheme: light) { pre { background: rgba(148,163,184,.18); } }
+    details { border: 1px solid rgba(148,163,184,.18); border-radius: 16px; padding: 12px 14px; background: rgba(2,6,23,.12); }
+    @media (prefers-color-scheme: light) { details { background: rgba(148,163,184,.12); } }
+    summary { cursor: pointer; font-weight: 800; }
+    summary::-webkit-details-marker { display:none; }
+    ul, ol { margin: 10px 0 0; padding-left: 18px; }
+    li { margin: 7px 0; }
+    .toc a { text-decoration:none; }
+    .toc a:hover { text-decoration: underline; }
+    footer { margin-top: 28px; padding-top: 14px; border-top: 1px dashed var(--line); color: var(--muted); font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand"><a href="/">← FromGravelHill.ca</a></div>
+      <div class="pill">How-To</div>
+    </div>
+
+    <header>
+      <h1>SSH &amp; GitHub Keys</h1>
+      <p class="lead">
+        SSH keys are used for <strong>Git operations</strong> (cloning/pushing) and secure shell access.
+        They are <strong>not the same</strong> as OpenPGP keys (which you use for encrypted email).
+        This page walks you through creating an SSH key, adding it to GitHub, and testing it.
+      </p>
+    </header>
+
+    <section class="card callout good">
+      <strong>Recommended choice</strong>
+      <ul>
+        <li>Use <span class="k">ed25519</span> for new SSH keys unless you need legacy systems.</li>
+        <li>Use a passphrase (protects your key if your device is stolen).</li>
+        <li>Create a separate key per device (desktop, laptop, etc.).</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2 style="margin:0 0 10px; font-size:1.15rem;">Table of contents</h2>
+      <div class="toc small">
+        <div><a href="#gen">1) Generate a key</a></div>
+        <div><a href="#agent">2) Add it to the SSH agent</a></div>
+        <div><a href="#github">3) Add it to GitHub</a></div>
+        <div><a href="#test">4) Test the connection</a></div>
+        <div><a href="#tips">5) Practical tips (multiple keys, backups)</a></div>
+      </div>
+    </section>
+
+    <section class="card" id="gen">
+      <h2 style="margin:0 0 6px; font-size:1.15rem;">1) Generate a key</h2>
+      <p class="small" style="margin:0;">
+        Run this once on each device. It creates a private key (keep secret) and a public key (safe to share).
+      </p>
+
+      <details style="margin-top:12px;" open>
+        <summary>Windows 11 (PowerShell)</summary>
+        <ol>
+          <li>Open <strong>PowerShell</strong>.</li>
+          <li>Run:</li>
+        </ol>
+        <pre class="k">ssh-keygen -t ed25519 -a 64 -C "your_email@example.com"</pre>
+        <ul>
+          <li>Press Enter to accept the default file location.</li>
+          <li>Set a passphrase when asked (recommended).</li>
+          <li>Your keys are typically saved in: <span class="k">%USERPROFILE%\.ssh\</span></li>
+        </ul>
+      </details>
+
+      <details style="margin-top:12px;">
+        <summary>Linux / macOS (Terminal)</summary>
+        <pre class="k">ssh-keygen -t ed25519 -a 64 -C "your_email@example.com"</pre>
+        <p class="small" style="margin-top:10px;">
+          Keys are typically saved in: <span class="k">~/.ssh/</span>
+        </p>
+      </details>
+
+      <details style="margin-top:12px;">
+        <summary>Public vs private key</summary>
+        <ul>
+          <li>Public key ends in <span class="k">.pub</span> (example: <span class="k">id_ed25519.pub</span>)</li>
+          <li>Private key has no extension (example: <span class="k">id_ed25519</span>)</li>
+        </ul>
+        <p class="small"><strong>Never share your private key.</strong></p>
+      </details>
+    </section>
+
+    <section class="card" id="agent">
+      <h2 style="margin:0 0 6px; font-size:1.15rem;">2) Add it to the SSH agent</h2>
+      <p class="small" style="margin:0;">
+        The agent holds decrypted keys in memory so you don’t type your passphrase constantly.
+      </p>
+
+      <details style="margin-top:12px;" open>
+        <summary>Windows 11 (PowerShell)</summary>
+        <pre class="k">Get-Service ssh-agent | Set-Service -StartupType Automatic
+Start-Service ssh-agent
+ssh-add $env:USERPROFILE\.ssh\id_ed25519</pre>
+      </details>
+
+      <details style="margin-top:12px;">
+        <summary>Linux / macOS</summary>
+        <pre class="k">eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519</pre>
+      </details>
+    </section>
+
+    <section class="card" id="github">
+      <h2 style="margin:0 0 6px; font-size:1.15rem;">3) Add it to GitHub</h2>
+      <ol>
+        <li>Copy your public key text (the <span class="k">.pub</span> file).</li>
+        <li>In GitHub: <strong>Settings</strong> → <strong>SSH and GPG keys</strong> → <strong>New SSH key</strong>.</li>
+        <li>Give it a title (example: <span class="k">“Desktop - Windows 11”</span>), paste the key, and save.</li>
+      </ol>
+
+      <details style="margin-top:12px;" open>
+        <summary>Copy your public key</summary>
+        <p class="small" style="margin:10px 0 0;">Windows (PowerShell):</p>
+        <pre class="k">type $env:USERPROFILE\.ssh\id_ed25519.pub</pre>
+        <p class="small" style="margin:10px 0 0;">Linux / macOS:</p>
+        <pre class="k">cat ~/.ssh/id_ed25519.pub</pre>
+      </details>
+    </section>
+
+    <section class="card" id="test">
+      <h2 style="margin:0 0 6px; font-size:1.15rem;">4) Test the connection</h2>
+      <p class="small" style="margin:0;">
+        The first time, you may be asked to trust GitHub’s host key (normal).
+      </p>
+      <pre class="k">ssh -T git@github.com</pre>
+
+      <details style="margin-top:12px;">
+        <summary>If you get “Permission denied (publickey).”</summary>
+        <ul>
+          <li>Make sure your key is added in GitHub settings.</li>
+          <li>Make sure the key is loaded in the agent: <span class="k">ssh-add -l</span></li>
+          <li>Confirm you are using the right key file (especially if you have multiple).</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="card" id="tips">
+      <h2 style="margin:0 0 6px; font-size:1.15rem;">5) Practical tips</h2>
+
+      <div class="grid" style="gap:12px;">
+        <div class="callout">
+          <strong>Multiple GitHub accounts / multiple keys</strong>
+          <p class="small" style="margin:10px 0 0;">
+            Use host aliases in <span class="k">~/.ssh/config</span>:
+          </p>
+          <pre class="k">Host github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_ed25519
+
+Host github-work
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_ed25519_work</pre>
+          <p class="small" style="margin-top:10px;">
+            Then clone with: <span class="k">git@github-work:ORG/REPO.git</span>
+          </p>
+        </div>
+
+        <div class="callout warn">
+          <strong>Backups and safety</strong>
+          <ul>
+            <li>Back up your private key only if you can store it securely.</li>
+            <li>If a private key is exposed, generate a new one and remove the old one from GitHub.</li>
+            <li>Passphrase + agent gives strong day-to-day protection.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>&copy; <span id="year"></span> FromGravelHill.ca · Last updated: 2026-02-27</div>
+      <div style="margin-top:6px;">Return to <a href="/">FromGravelHill.ca</a></div>
+    </footer>
+  </div>
+</body>
+</html>

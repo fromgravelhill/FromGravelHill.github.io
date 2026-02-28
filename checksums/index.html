@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Verify Downloads · From Gravel Hill</title>
+  <meta name="description" content="How to verify downloads using checksums and signatures (Windows, Linux, macOS)." />
+  <meta name="theme-color" content="#0f172a" />
+  <style>
+    :root {
+      --bg: #0b1020;
+      --fg: #e5e7eb;
+      --muted: #a3a3a3;
+      --card: #11152a;
+      --card-hover: #1a1f3a;
+      --accent: #22c55e;
+      --btn-fg: #0b1020;
+      --ring: rgba(34,197,94,.30);
+      --line: rgba(148,163,184,.22);
+      --ok: #34d399;
+      --warn: #fbbf24;
+      --bad: #fb7185;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f8fafc;
+        --fg: #0b1020;
+        --muted: #4b5563;
+        --card: #ffffff;
+        --card-hover: #f1f5f9;
+        --accent: #15803d;
+        --btn-fg: #ffffff;
+        --ring: rgba(21,128,61,.18);
+        --line: rgba(148,163,184,.45);
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      background:
+        radial-gradient(1200px 600px at 70% -10%, rgba(34,197,94,.14), transparent),
+        radial-gradient(800px 400px at 0% 100%, rgba(99,102,241,.10), transparent),
+        var(--bg);
+      color: var(--fg);
+    }
+    a { color: inherit; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 48px 20px 36px; }
+    .top { display:flex; align-items:center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+    .brand a { text-decoration:none; font-weight:700; letter-spacing:.02em; }
+    .pill { display:inline-block; font-size: .8rem; color: var(--muted); border: 1px solid var(--line); padding: .25rem .6rem; border-radius: 9999px; }
+    h1 { margin: 10px 0 8px; font-size: clamp(1.6rem, 3.2vw, 2.2rem); line-height: 1.15; }
+    p.lead { margin: 0 0 18px; color: var(--muted); max-width: 80ch; }
+
+    .grid { display:grid; gap: 14px; }
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(148,163,184,.15);
+      border-radius: 18px;
+      padding: 18px;
+      transition: transform .15s ease, background-color .15s ease, border-color .15s ease;
+    }
+    .card:hover { background: var(--card-hover); transform: translateY(-1px); border-color: rgba(148,163,184,.28); }
+    .k { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: .92rem; }
+    .small { font-size: .92rem; color: var(--muted); }
+    .callout { border-left: 4px solid var(--accent); padding: 14px 16px; border-radius: 16px; }
+    .good { border-left-color: var(--ok); }
+    .warn { border-left-color: var(--warn); }
+    .bad { border-left-color: var(--bad); }
+    pre {
+      background: rgba(2,6,23,.35);
+      border: 1px solid rgba(148,163,184,.18);
+      padding: 12px;
+      border-radius: 14px;
+      overflow:auto;
+      margin: 10px 0 0;
+    }
+    @media (prefers-color-scheme: light) { pre { background: rgba(148,163,184,.18); } }
+    details { border: 1px solid rgba(148,163,184,.18); border-radius: 16px; padding: 12px 14px; background: rgba(2,6,23,.12); }
+    @media (prefers-color-scheme: light) { details { background: rgba(148,163,184,.12); } }
+    summary { cursor: pointer; font-weight: 800; }
+    summary::-webkit-details-marker { display:none; }
+    ul, ol { margin: 10px 0 0; padding-left: 18px; }
+    li { margin: 7px 0; }
+    .row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    .btn {
+      display:inline-block;
+      text-decoration:none;
+      font-weight:800;
+      border-radius: 12px;
+      padding: .6rem .85rem;
+      border:1px solid var(--accent);
+      background: var(--accent);
+      color: var(--btn-fg);
+      cursor:pointer;
+    }
+    .btn.ghost { background: transparent; color: var(--accent); }
+    .btn:focus { outline:none; box-shadow: 0 0 0 4px var(--ring); }
+    footer { margin-top: 28px; padding-top: 14px; border-top: 1px dashed var(--line); color: var(--muted); font-size: .9rem; }
+    .toc a { text-decoration:none; }
+    .toc a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand"><a href="/">← FromGravelHill.ca</a></div>
+      <div class="pill">How-To</div>
+    </div>
+
+    <header>
+      <h1>Verify Downloads</h1>
+      <p class="lead">
+        If you download something important (installers, APKs, ZIPs, ISOs, finance tools, encryption tools),
+        verify it. This page shows the practical “how” for checksums and signatures.
+      </p>
+      <div class="row">
+        <a class="btn" href="/checksum/">Open checksum tool</a>
+        <a class="btn ghost" href="/ssh-github/">SSH &amp; GitHub keys</a>
+      </div>
+    </header>
+
+    <section class="card callout good">
+      <strong>The goal</strong>
+      <ul>
+        <li>Confirm the file you downloaded is <strong>exactly</strong> what the publisher released.</li>
+        <li>Detect corruption, tampering, or “wrong file from the wrong place”.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2 style="margin:0 0 10px; font-size:1.15rem;">Table of contents</h2>
+      <div class="toc small">
+        <div><a href="#checksum">1) Checksums (fast, common)</a></div>
+        <div><a href="#signature">2) Signatures (stronger when available)</a></div>
+        <div><a href="#rules">3) Simple rules that prevent most mistakes</a></div>
+      </div>
+    </section>
+
+    <section class="card" id="checksum">
+      <h2 style="margin:0 0 6px; font-size:1.15rem;">1) Checksums (fast, common)</h2>
+      <p class="small" style="margin:0;">
+        A checksum is a hash of the file. If the publisher’s checksum matches your checksum,
+        you have the same bytes they published.
+      </p>
+
+      <div class="grid" style="margin-top:12px;">
+        <div class="callout warn">
+          <strong>Prefer SHA-256</strong>
+          <ul>
+            <li>SHA-256 is the typical modern checksum.</li>
+            <li>SHA-1/MD5 are legacy and not recommended for strong integrity guarantees.</li>
+          </ul>
+        </div>
+
+        <details>
+          <summary>Windows (PowerShell)</summary>
+          <p class="small" style="margin:10px 0 0;">SHA-256:</p>
+          <pre class="k">Get-FileHash -Algorithm SHA256 .\YourFile.zip</pre>
+          <p class="small" style="margin:10px 0 0;">Older Windows option:</p>
+          <pre class="k">certutil -hashfile .\YourFile.zip SHA256</pre>
+        </details>
+
+        <details>
+          <summary>Linux</summary>
+          <pre class="k">sha256sum YourFile.zip</pre>
+        </details>
+
+        <details>
+          <summary>macOS</summary>
+          <pre class="k">shasum -a 256 YourFile.zip</pre>
+        </details>
+
+        <details open>
+          <summary>Using the in-browser tool</summary>
+          <ol>
+            <li>Open <a href="/checksum/">/checksum/</a></li>
+            <li>Select the file</li>
+            <li>Keep algorithm on <span class="k">SHA-256</span></li>
+            <li>Paste the publisher’s expected hash to compare</li>
+          </ol>
+          <p class="small" style="margin-top:10px;">The file never uploads - it stays on your device.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="card" id="signature">
+      <h2 style="margin:0 0 6px; font-size:1.15rem;">2) Signatures (stronger when available)</h2>
+      <p class="small" style="margin:0;">
+        If a download includes a signature file (often <span class="k">.sig</span>, <span class="k">.asc</span>, or <span class="k">.gpg</span>),
+        that’s better than a plain checksum - because the publisher’s private key is required to create a valid signature.
+      </p>
+
+      <div class="callout bad" style="margin-top:12px;">
+        <strong>Important</strong>
+        <ul>
+          <li>A signature is only meaningful if you have the <strong>right</strong> public key and you verified its fingerprint.</li>
+          <li>Don’t just grab a random key and assume it’s the real one.</li>
+        </ul>
+      </div>
+
+      <details style="margin-top:12px;" open>
+        <summary>Typical GPG verification flow</summary>
+        <ol>
+          <li>Import the publisher’s public key (from their official site).</li>
+          <li>Verify the key fingerprint (second channel if possible).</li>
+          <li>Verify the signature:</li>
+        </ol>
+        <pre class="k">gpg --import publisher-public-key.asc
+gpg --fingerprint "Publisher Name"
+gpg --verify YourFile.zip.asc YourFile.zip</pre>
+      </details>
+
+      <p class="small" style="margin-top:12px;">
+        If the signature verifies and the key is trusted/verified, you can be confident the file is authentic.
+      </p>
+    </section>
+
+    <section class="card" id="rules">
+      <h2 style="margin:0 0 6px; font-size:1.15rem;">3) Simple rules that prevent most mistakes</h2>
+      <ul>
+        <li>Only trust checksums/signatures from the <strong>publisher’s official page</strong> (not a reposted blog).</li>
+        <li>Make sure the checksum matches the <strong>exact filename/version</strong> you downloaded.</li>
+        <li>If you get a mismatch: delete the file and re-download from the official source.</li>
+        <li>For high-risk software: prefer <strong>signed releases</strong>.</li>
+        <li>Remember: a checksum on a compromised website can’t protect you.</li>
+      </ul>
+    </section>
+
+    <footer>
+      <div>&copy; <span id="year"></span> FromGravelHill.ca · Last updated: 2026-02-27</div>
+      <div style="margin-top:6px;">Return to <a href="/">FromGravelHill.ca</a></div>
+    </footer>
+  </div>
+</body>
+</html>

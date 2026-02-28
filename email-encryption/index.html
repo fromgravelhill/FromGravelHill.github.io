@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Email Encryption (OpenPGP) · From Gravel Hill</title>
+  <meta name="description" content="A practical step-by-step guide for sending Marc MacArthur signed and encrypted email using OpenPGP." />
+  <meta name="theme-color" content="#0f172a" />
+  <style>
+    :root {
+      --bg: #0b1020;
+      --fg: #e5e7eb;
+      --muted: #a3a3a3;
+      --card: #11152a;
+      --card-hover: #1a1f3a;
+      --accent: #fbbf24;
+      --btn-fg: #0b1020;
+      --ring: rgba(251, 191, 36, .35);
+      --ok: #34d399;
+      --warn: #fb7185;
+      --line: rgba(148,163,184,.22);
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f8fafc;
+        --fg: #0b1020;
+        --muted: #4b5563;
+        --card: #ffffff;
+        --card-hover: #f1f5f9;
+        --accent: #b45309;
+        --btn-fg: #ffffff;
+        --ring: rgba(180, 83, 9, .22);
+        --line: rgba(148,163,184,.45);
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      background:
+        radial-gradient(1200px 600px at 70% -10%, rgba(251,191,36,.14), transparent),
+        radial-gradient(800px 400px at 0% 100%, rgba(99,102,241,.10), transparent),
+        var(--bg);
+      color: var(--fg);
+    }
+    a { color: inherit; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 48px 20px 36px; }
+    .top { display:flex; align-items:center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+    .brand a { text-decoration:none; font-weight:700; letter-spacing:.02em; }
+    .pill {
+      display:inline-block;
+      font-size: .8rem;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      padding: .25rem .6rem;
+      border-radius: 9999px;
+    }
+    h1 { margin: 10px 0 8px; font-size: clamp(1.6rem, 3.2vw, 2.2rem); line-height: 1.15; }
+    p.lead { margin: 0 0 18px; color: var(--muted); max-width: 70ch; }
+    .grid { display:grid; gap: 14px; }
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(148,163,184,.15);
+      border-radius: 18px;
+      padding: 18px;
+      transition: transform .15s ease, background-color .15s ease, border-color .15s ease;
+    }
+    .card:hover { background: var(--card-hover); transform: translateY(-1px); border-color: rgba(148,163,184,.28); }
+    .k { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: .92rem; }
+    .small { font-size: .92rem; color: var(--muted); }
+    .btn {
+      display:inline-block;
+      text-decoration:none;
+      font-weight:700;
+      border-radius: 12px;
+      padding: .6rem .85rem;
+      border:1px solid var(--accent);
+      background: var(--accent);
+      color: var(--btn-fg);
+      cursor: pointer;
+    }
+    .btn.ghost { background: transparent; color: var(--accent); }
+    .btn:focus { outline:none; box-shadow: 0 0 0 4px var(--ring); }
+    .row { display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
+    .split { display:grid; grid-template-columns: 1fr; gap: 14px; }
+    @media (min-width: 920px) { .split { grid-template-columns: 1fr 1fr; } }
+
+    .callout { border-left: 4px solid var(--accent); padding: 14px 16px; border-radius: 16px; }
+    .good { border-left-color: var(--ok); }
+    .warn { border-left-color: var(--warn); }
+
+    ul, ol { margin: 10px 0 0; padding-left: 18px; }
+    li { margin: 7px 0; }
+
+    pre {
+      background: rgba(2,6,23,.35);
+      border: 1px solid rgba(148,163,184,.18);
+      padding: 12px;
+      border-radius: 14px;
+      overflow:auto;
+      margin: 10px 0 0;
+    }
+    @media (prefers-color-scheme: light) {
+      pre { background: rgba(148,163,184,.18); }
+    }
+
+    details {
+      border: 1px solid rgba(148,163,184,.18);
+      border-radius: 16px;
+      padding: 12px 14px;
+      background: rgba(2,6,23,.12);
+    }
+    @media (prefers-color-scheme: light) {
+      details { background: rgba(148,163,184,.12); }
+    }
+    summary { cursor: pointer; font-weight: 700; }
+    summary::-webkit-details-marker { display:none; }
+
+    .step {
+      display:flex; gap: 12px; align-items:flex-start;
+    }
+    .n {
+      width: 30px; height: 30px;
+      border-radius: 10px;
+      display:grid; place-items:center;
+      background: rgba(251,191,36,.22);
+      border: 1px solid rgba(251,191,36,.35);
+      font-weight: 800;
+      flex: 0 0 auto;
+      margin-top: 2px;
+    }
+    @media (prefers-color-scheme: light) {
+      .n { background: rgba(180,83,9,.10); border-color: rgba(180,83,9,.22); }
+    }
+
+    footer { margin-top: 28px; padding-top: 14px; border-top: 1px dashed var(--line); color: var(--muted); font-size: .9rem; }
+    .toc a { text-decoration:none; }
+    .toc a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand"><a href="/">← FromGravelHill.ca</a></div>
+      <div class="pill">How-To</div>
+    </div>
+
+    <header>
+      <h1>Email Encryption (OpenPGP)</h1>
+      <p class="lead">
+        This page tells you exactly what you need to do to send <strong>signed</strong> and <strong>encrypted</strong> email.
+      </p>
+    </header>
+
+    <section class="card callout">
+      <strong>What encryption does (and doesn’t) do</strong>
+      <ul>
+        <li><strong>Encrypt</strong> = only someone with the private key can read the message content.</li>
+        <li><strong>Sign</strong> = proves the message came from the holder of the signing key (and wasn’t altered in transit).</li>
+        <li><strong>Not hidden:</strong> email metadata (to/from, date, and usually the subject) is still visible to providers.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2 style="margin:0 0 10px; font-size:1.15rem;">Quick start (5 minutes)</h2>
+
+      <div class="split">
+        <div class="callout good">
+          <strong>If you already have an OpenPGP key</strong>
+          <ol>
+            <li>Download my public key: <a href="/keys/marc-macarthur.asc">/keys/marc-macarthur.asc</a></li>
+            <li>Verify the fingerprint matches:</li>
+          </ol>
+          <div class="row" style="margin-top:10px;">
+            <div class="k" id="fp">5CF3 AD6F 6F32 2C0F 8D13 5DB3 F1B8 3920 71D0 11F1</div>
+            <button class="btn ghost" id="copyfp" type="button">Copy</button>
+            <span class="small" id="fpcopied" aria-live="polite"></span>
+          </div>
+          <ol start="3">
+            <li>Mark my key as verified/trusted in your key manager.</li>
+            <li>Compose an email to <span class="k">marc@fromgravelhill.ca</span> and enable <strong>Encrypt</strong> (and ideally <strong>Sign</strong>).</li>
+            <li>Attach your public key (or include it in the message) so I can reply encrypted.</li>
+          </ol>
+        </div>
+
+        <div class="callout">
+          <strong>If you don’t have a key yet</strong>
+          <ol>
+            <li>Install a mail client with OpenPGP support (Thunderbird is the easiest on desktop).</li>
+            <li>Create a new key pair (one-time setup).</li>
+            <li>Make a revocation certificate and back up your key.</li>
+            <li>Then follow the “already have a key” steps.</li>
+          </ol>
+          <p class="small" style="margin:10px 0 0;">
+            If that sounds like a lot: it’s mostly one-time setup. After that, encrypting is just a checkbox.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 style="margin:0 0 10px; font-size:1.15rem;">Table of contents</h2>
+      <div class="toc small">
+        <div><a href="#step1">1) Pick your tool</a></div>
+        <div><a href="#step2">2) Create your key (and back it up)</a></div>
+        <div><a href="#step3">3) Import my key and verify it</a></div>
+        <div><a href="#step4">4) Send a signed & encrypted email</a></div>
+        <div><a href="#step5">5) Troubleshooting & common issues</a></div>
+      </div>
+    </section>
+
+    <section class="card" id="step1">
+      <div class="step">
+        <div class="n">1</div>
+        <div>
+          <h2 style="margin:0 0 6px; font-size:1.15rem;">Pick your tool</h2>
+          <p class="small" style="margin:0;">
+            You need two things: an email client, and OpenPGP support (built-in or via a key manager).
+            These are common choices:
+          </p>
+
+          <details style="margin-top:12px;" open>
+            <summary>Desktop (Windows / macOS / Linux): Thunderbird</summary>
+            <ul>
+              <li>Thunderbird can manage OpenPGP keys and send signed/encrypted mail directly.</li>
+              <li>Best for: simplest setup, least moving parts.</li>
+              <li>Download: <a href="https://www.thunderbird.net/">thunderbird.net</a></li>
+            </ul>
+          </details>
+
+          <details style="margin-top:12px;">
+            <summary>Windows (optional): Gpg4win + any mail client</summary>
+            <ul>
+              <li>Gpg4win provides GnuPG plus tools like Kleopatra for key management.</li>
+              <li>Best for: you already use Kleopatra, or you want a separate key manager.</li>
+              <li>Download: <a href="https://www.gpg4win.org/">gpg4win.org</a></li>
+            </ul>
+          </details>
+
+          <details style="margin-top:12px;">
+            <summary>Android: OpenKeychain + a compatible email app</summary>
+            <ul>
+              <li>OpenKeychain acts as your key manager. Some email apps can use it for OpenPGP.</li>
+              <li>Best for: mobile sending/reading.</li>
+              <li>Project: <a href="https://www.openkeychain.org/">openkeychain.org</a></li>
+            </ul>
+          </details>
+
+          <p class="small" style="margin-top:12px;">
+            If you’re unsure: use Thunderbird on desktop. It’s the smoothest “start here”.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="step2">
+      <div class="step">
+        <div class="n">2</div>
+        <div>
+          <h2 style="margin:0 0 6px; font-size:1.15rem;">Create your key (and back it up)</h2>
+          <p class="small" style="margin:0;">
+            Your key pair has a <strong>public key</strong> (share it) and a <strong>private key</strong> (protect it).
+            Treat your private key like a house key: anyone who has it can read your encrypted mail and impersonate your signatures.
+          </p>
+
+          <div class="split" style="margin-top:12px;">
+            <div class="callout good">
+              <strong>Recommended settings (practical)</strong>
+              <ul>
+                <li>Use your software’s default modern key type unless you need legacy compatibility.</li>
+                <li>Set a strong passphrase you can actually remember.</li>
+                <li>Set an expiry (you can extend later).</li>
+              </ul>
+            </div>
+            <div class="callout warn">
+              <strong>Do these two safety steps</strong>
+              <ol>
+                <li><strong>Create a revocation certificate</strong> and store it offline (USB kept safe, printed QR/backup, etc.).</li>
+                <li><strong>Back up your private key</strong> securely (encrypted storage, offline copy).</li>
+              </ol>
+              <p class="small" style="margin:10px 0 0;">
+                If you lose your private key and have no backup, you cannot read old encrypted messages.
+              </p>
+            </div>
+          </div>
+
+          <details style="margin-top:12px;">
+            <summary>Thunderbird: where the key creation usually lives</summary>
+            <ul>
+              <li>Account Settings → End-to-End Encryption (or OpenPGP) → Add/Generate key.</li>
+              <li>After creation, export your <strong>public key</strong> to share and export your <strong>private key</strong> to back up.</li>
+            </ul>
+          </details>
+
+          <details style="margin-top:12px;">
+            <summary>Command line (GnuPG): basic key generation</summary>
+            <p class="small" style="margin:10px 0 0;">
+              This is one common approach. Your distro may recommend a slightly different flow.
+            </p>
+            <pre class="k"># Generate a new key (guided)
+gpg --full-generate-key
+
+# List keys
+gpg --list-secret-keys --keyid-format long
+
+# Export your public key (share this)
+gpg --armor --export "Your Name" &gt; my-public-key.asc
+
+# Export your private key (BACK UP securely)
+gpg --armor --export-secret-keys "Your Name" &gt; my-private-key.asc</pre>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="step3">
+      <div class="step">
+        <div class="n">3</div>
+        <div>
+          <h2 style="margin:0 0 6px; font-size:1.15rem;">Import my key and verify it</h2>
+          <p class="small" style="margin:0;">
+            Importing a key is easy. Trusting the right key is the important part.
+          </p>
+
+          <div class="split" style="margin-top:12px;">
+            <div class="callout">
+              <strong>Download my key</strong>
+              <div class="row" style="margin-top:10px;">
+                <a class="btn" href="/keys/marc-macarthur.asc">Download .asc</a>
+                <a class="btn ghost" href="/keys/">Key page</a>
+              </div>
+              <p class="small" style="margin-top:10px;">
+                If your app asks which identity to use, my key is associated with <span class="k">marc@fromgravelhill.ca</span>
+              </p>
+            </div>
+
+            <div class="callout good">
+              <strong>Verify fingerprint (the “make sure it’s really me” step)</strong>
+              <p class="small" style="margin:10px 0 8px;">
+                Compare the fingerprint shown by your key manager to this:
+              </p>
+              <div class="row">
+                <div class="k" style="user-select:all;">5CF3 AD6F 6F32 2C0F 8D13 5DB3 F1B8 3920 71D0 11F1</div>
+              </div>
+              <ul>
+                <li>Best: verify via phone / in person / a trusted message thread.</li>
+                <li>Then mark my key as verified/trusted in your software.</li>
+              </ul>
+            </div>
+          </div>
+
+          <details style="margin-top:12px;">
+            <summary>Command line: import + fingerprint check</summary>
+            <pre class="k">gpg --import marc-macarthur.asc
+gpg --fingerprint "Marc MacArthur"</pre>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="step4">
+      <div class="step">
+        <div class="n">4</div>
+        <div>
+          <h2 style="margin:0 0 6px; font-size:1.15rem;">Send a signed &amp; encrypted email</h2>
+          <p class="small" style="margin:0;">
+            Once keys are in place, sending encrypted mail is just a couple of toggles.
+          </p>
+
+          <div class="split" style="margin-top:12px;">
+            <div class="callout good">
+              <strong>What I prefer</strong>
+              <ul>
+                <li><strong>Sign + Encrypt</strong> when possible.</li>
+                <li>If you can’t encrypt yet, at least <strong>sign</strong> your first message.</li>
+                <li>Attach your <strong>public key</strong> so I can reply encrypted.</li>
+              </ul>
+            </div>
+            <div class="callout">
+              <strong>Message tips</strong>
+              <ul>
+                <li>Use a neutral subject line. (Subjects usually aren’t encrypted.)</li>
+                <li>Prefer plain text over fancy HTML when troubleshooting.</li>
+                <li>Don’t put secrets in the subject or attachment filenames.</li>
+              </ul>
+            </div>
+          </div>
+
+          <details style="margin-top:12px;" open>
+            <summary>Thunderbird: the usual flow</summary>
+            <ol>
+              <li>Compose a new email to <span class="k">marc@fromgravelhill.ca</span></li>
+              <li>Turn on <strong>Encrypt</strong> and <strong>Digitally Sign</strong> (the wording varies by version).</li>
+              <li>If prompted, choose your OpenPGP key for signing.</li>
+              <li>Send. If Thunderbird warns it can’t find my key, import it and verify it (Step 3).</li>
+            </ol>
+          </details>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="step5">
+      <div class="step">
+        <div class="n">5</div>
+        <div>
+          <h2 style="margin:0 0 6px; font-size:1.15rem;">Troubleshooting &amp; common gotchas</h2>
+
+          <details style="margin-top:12px;" open>
+            <summary>“I can’t encrypt - it says there’s no recipient key.”</summary>
+            <ul>
+              <li>Make sure you imported my public key and that your software sees it as valid.</li>
+              <li>Verify the fingerprint, then mark the key as verified/trusted.</li>
+              <li>Some clients match by email address; use <span class="k">marc@fromgravelhill.ca</span> for the first test.</li>
+            </ul>
+          </details>
+
+          <details style="margin-top:12px;">
+            <summary>“My signature shows as ‘unknown / not trusted’.”</summary>
+            <ul>
+              <li>That’s normal until a key is marked as verified.</li>
+              <li>Verify the fingerprint through a second channel, then set the key as trusted/verified.</li>
+            </ul>
+          </details>
+
+          <details style="margin-top:12px;">
+            <summary>“It worked once, then broke.”</summary>
+            <ul>
+              <li>Check whether your key expired; extend it if needed.</li>
+              <li>If you created a new key, tell your contacts - old encrypted mail won’t decrypt with a new key.</li>
+              <li>If you restored from backup, make sure the key IDs match what your client expects.</li>
+            </ul>
+          </details>
+
+          <details style="margin-top:12px;">
+            <summary>Privacy note</summary>
+            <p class="small" style="margin:10px 0 0;">
+              OpenPGP protects message content, but email still leaks metadata.
+              If your situation demands stronger anonymity or less metadata leakage, consider a different medium for highly sensitive topics.
+            </p>
+          </details>
+
+          <p class="small" style="margin-top:12px;">
+            If you get stuck, send me a normal email describing where it broke (what client, what error text),
+            and I’ll tell you what to check.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>&copy; <span id="year"></span> FromGravelHill.ca · Last updated: 2026-02-27</div>
+      <div style="margin-top:6px;">Return to <a href="/">FromGravelHill.ca</a> · Key: <a href="/keys/">/keys/</a></div>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      const fp = document.getElementById("fp");
+      const btn = document.getElementById("copyfp");
+      const status = document.getElementById("fpcopied");
+      if (!fp || !btn) return;
+
+      btn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(fp.textContent.trim());
+          status.textContent = "Copied.";
+          setTimeout(() => status.textContent = "", 1500);
+        } catch (e) {
+          status.textContent = "Copy failed. Select and copy manually.";
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

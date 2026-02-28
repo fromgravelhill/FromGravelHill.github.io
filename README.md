@@ -1,4 +1,4 @@
-# FromGravelHill.ca — Website
+# FromGravelHill.ca - Website
 
 [![Last Commit](https://img.shields.io/github/last-commit/fromgravelhill/FromGravelHill.github.io?logo=github)](https://github.com/fromgravelhill/FromGravelHill.github.io/commits/main)
 ![Static Site](https://img.shields.io/badge/Site-type%3A%20static-blue)
@@ -9,13 +9,9 @@
 
 A straightforward static site for **FromGravelHill.ca**.
 
-## 📁 Structure
-- Root: `index.html`, `favicon.ico`, `CNAME`
-- Assets: `assets/images/`
+
 
 ## 🧪 Run Locally
-
-No build step required. Serve the folder locally:
 
 ```bash
 # Python
@@ -30,5 +26,5 @@ http://127.0.0.1:4000
 ```
 
 ## Licensing
-- **Code**: MIT — see `LICENSE`.
-- **Content**: CC BY-NC-ND 4.0 — see `LICENSE-content`.
+- **Code**: MIT - see `LICENSE`.
+- **Content**: CC BY-NC-ND 4.0 - see `LICENSE-content`.

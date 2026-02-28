@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Checksum Tool · From Gravel Hill</title>
+  <meta name="description" content="Calculate SHA-256 and other hashes for a file locally in your browser." />
+  <meta name="theme-color" content="#0f172a" />
+  <style>
+    :root {
+      --bg: #0b1020;
+      --fg: #e5e7eb;
+      --muted: #a3a3a3;
+      --card: #11152a;
+      --card-hover: #1a1f3a;
+      --accent: #fb7185;
+      --btn-fg: #0b1020;
+      --ring: rgba(251,113,133,.30);
+      --line: rgba(148,163,184,.22);
+      --ok: #34d399;
+      --warn: #fbbf24;
+      --bad: #fb7185;
+      color-scheme: dark;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f8fafc;
+        --fg: #0b1020;
+        --muted: #4b5563;
+        --card: #ffffff;
+        --card-hover: #f1f5f9;
+        --accent: #be123c;
+        --btn-fg: #ffffff;
+        --ring: rgba(190,18,60,.18);
+        --line: rgba(148,163,184,.45);
+        color-scheme: light;
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      background:
+        radial-gradient(1200px 600px at 70% -10%, rgba(251,113,133,.14), transparent),
+        radial-gradient(800px 400px at 0% 100%, rgba(99,102,241,.10), transparent),
+        var(--bg);
+      color: var(--fg);
+    }
+    a { color: inherit; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 48px 20px 36px; }
+    .top { display:flex; align-items:center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+    .brand a { text-decoration:none; font-weight:700; letter-spacing:.02em; }
+    .pill { display:inline-block; font-size: .8rem; color: var(--muted); border: 1px solid var(--line); padding: .25rem .6rem; border-radius: 9999px; }
+    h1 { margin: 10px 0 8px; font-size: clamp(1.6rem, 3.2vw, 2.2rem); line-height: 1.15; }
+    p.lead { margin: 0 0 18px; color: var(--muted); max-width: 75ch; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(148,163,184,.15);
+      border-radius: 18px;
+      padding: 18px;
+      transition: transform .15s ease, background-color .15s ease, border-color .15s ease;
+    }
+    .card:hover { background: var(--card-hover); transform: translateY(-1px); border-color: rgba(148,163,184,.28); }
+
+    .row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    .k { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: .92rem; }
+    .small { font-size: .92rem; color: var(--muted); }
+
+    .btn {
+      display:inline-block;
+      text-decoration:none;
+      font-weight:800;
+      border-radius: 12px;
+      padding: .6rem .85rem;
+      border:1px solid var(--accent);
+      background: var(--accent);
+      color: var(--btn-fg);
+      cursor:pointer;
+    }
+    .btn.ghost { background: transparent; color: var(--accent); }
+    .btn:focus { outline:none; box-shadow: 0 0 0 4px var(--ring); }
+
+    .drop {
+      border: 1px dashed rgba(148,163,184,.45);
+      border-radius: 18px;
+      padding: 16px;
+      background: rgba(2,6,23,.12);
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    @media (prefers-color-scheme: light) { .drop { background: rgba(148,163,184,.12); } }
+
+    select, input[type="text"]{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(148,163,184,.35);
+      background: rgba(2,6,23,.18);
+      color: var(--fg);
+      outline: none;
+    }
+    select{
+      background: var(--card);
+      color: var(--fg);
+    }
+    select option{
+      background: var(--card);
+      color: var(--fg);
+    }
+    @media (prefers-color-scheme: light) { select, input[type="text"]{ background: rgba(255,255,255,.7); } }
+    select:focus, input[type="text"]:focus { box-shadow: 0 0 0 4px var(--ring); border-color: rgba(148,163,184,.55); }
+
+    .out {
+      border: 1px solid rgba(148,163,184,.18);
+      border-radius: 16px;
+      padding: 12px 14px;
+      background: rgba(2,6,23,.12);
+    }
+    @media (prefers-color-scheme: light) { .out { background: rgba(148,163,184,.12); } }
+
+    .status { font-weight: 800; }
+    .match { color: var(--ok); }
+    .nomatch { color: var(--bad); }
+    .warn { color: var(--warn); }
+
+    progress { width: 100%; height: 14px; }
+
+    footer { margin-top: 28px; padding-top: 14px; border-top: 1px dashed var(--line); color: var(--muted); font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand"><a href="/">← FromGravelHill.ca</a></div>
+      <div class="pill">Tool</div>
+    </div>
+
+    <header>
+      <h1>Checksum Tool</h1>
+      <p class="lead">
+        Calculate file hashes (SHA-256, SHA-1, SHA-384, SHA-512) </p>
+    </header>
+
+    <section class="card">
+      <div class="drop" id="drop">
+        <strong>Choose a file</strong>
+        <input id="file" type="file" />
+        <div class="row">
+          <div style="flex:1;">
+            <div class="small">Algorithm</div>
+            <select id="alg">
+              <option value="SHA-256" selected>SHA-256 (recommended)</option>
+              <option value="SHA-512">SHA-512</option>
+              <option value="SHA-384">SHA-384</option>
+              <option value="SHA-1">SHA-1 (legacy)</option>
+            </select>
+          </div>
+          <div style="flex:1;">
+            <div class="small">Expected hash (optional)</div>
+            <input id="expected" type="text" placeholder="Paste expected hash to compare…" spellcheck="false" />
+          </div>
+        </div>
+
+        <div class="row">
+          <button class="btn" id="calc" type="button" disabled>Calculate</button>
+          <button class="btn ghost" id="copy" type="button" disabled>Copy hash</button>
+          <a class="btn ghost" href="/checksums/">How to verify downloads</a>
+        </div>
+
+        <div class="small" id="note">Tip: you can also drag-and-drop a file onto this box.</div>
+
+        <progress id="prog" value="0" max="100" style="display:none;"></progress>
+
+        <div class="out" style="margin-top:6px;">
+          <div class="small">Result</div>
+          <div class="k" id="hash" style="margin-top:6px; user-select:all;">-</div>
+          <div class="small" style="margin-top:10px;">
+            <span class="status" id="status">Status:</span>
+            <span id="cmp" class="warn">No file selected.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <strong>Privacy &amp; limitations</strong>
+      <ul>
+        <li>This uses your browser’s Web Crypto API. The file is read locally and never sent anywhere.</li>
+        <li>Very large files may take time or require a lot of memory, depending on your browser.</li>
+        <li>If you need streaming hashing for huge files, use the OS command-line tools on the guide page.</li>
+      </ul>
+    </section>
+
+    <footer>
+      <div>&copy; <span id="year"></span> FromGravelHill.ca · Last updated: 2026-02-27</div>
+      <div style="margin-top:6px;">Return to <a href="/">FromGravelHill.ca</a></div>
+    </footer>
+  </div>
+
+<script>
+(function () {
+  const fileEl = document.getElementById('file');
+  const algEl = document.getElementById('alg');
+  const expectedEl = document.getElementById('expected');
+  const calcBtn = document.getElementById('calc');
+  const copyBtn = document.getElementById('copy');
+  const hashEl = document.getElementById('hash');
+  const cmpEl = document.getElementById('cmp');
+  const prog = document.getElementById('prog');
+  const drop = document.getElementById('drop');
+
+  function hex(buffer) {
+    const bytes = new Uint8Array(buffer);
+    let out = '';
+    for (let i = 0; i < bytes.length; i++) out += bytes[i].toString(16).padStart(2, '0');
+    return out;
+  }
+
+  function normalizeHash(s) {
+    return (s || '').toString().trim().toLowerCase().replace(/\s+/g, '').replace(/^0x/, '');
+  }
+
+  function setStatus(text, cls) {
+    cmpEl.className = cls || 'warn';
+    cmpEl.textContent = text;
+  }
+
+  async function digestFile(file, alg) {
+    prog.style.display = '';
+    prog.value = 0;
+
+    const buf = await new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onerror = () => reject(r.error);
+      r.onprogress = (e) => {
+        if (e.lengthComputable) prog.value = Math.min(99, Math.round((e.loaded / e.total) * 99));
+      };
+      r.onload = () => resolve(r.result);
+      r.readAsArrayBuffer(file);
+    });
+
+    prog.value = 99;
+    const hash = await crypto.subtle.digest(alg, buf);
+    prog.value = 100;
+    setTimeout(() => { prog.style.display = 'none'; }, 400);
+    return hex(hash);
+  }
+
+  async function calculate() {
+    const file = fileEl.files && fileEl.files[0];
+    if (!file) return;
+
+    calcBtn.disabled = true;
+    copyBtn.disabled = true;
+    hashEl.textContent = 'Working…';
+    setStatus('Calculating…', 'warn');
+
+    try {
+      const alg = algEl.value;
+      const h = await digestFile(file, alg);
+      hashEl.textContent = h;
+      copyBtn.disabled = false;
+
+      const expected = normalizeHash(expectedEl.value);
+      if (!expected) {
+        setStatus('Hash calculated. Paste an expected hash to compare.', 'warn');
+      } else {
+        const ok = normalizeHash(h) === expected;
+        setStatus(ok ? 'MATCH - file hash matches expected value.' : 'NO MATCH - do not trust this file.', ok ? 'match' : 'nomatch');
+      }
+    } catch (e) {
+      hashEl.textContent = '-';
+      setStatus('Error hashing file. Try a different browser or use command-line methods.', 'nomatch');
+    } finally {
+      calcBtn.disabled = false;
+    }
+  }
+
+  function updateButtons() {
+    const hasFile = fileEl.files && fileEl.files.length > 0;
+    calcBtn.disabled = !hasFile;
+    copyBtn.disabled = true;
+    hashEl.textContent = '-';
+    setStatus(hasFile ? 'Ready.' : 'No file selected.', 'warn');
+  }
+
+  async function copyHash() {
+    const text = (hashEl.textContent || '').trim();
+    if (!text || text === '-' || text === 'Working…') return;
+    try {
+      await navigator.clipboard.writeText(text);
+      setStatus('Copied hash to clipboard.', 'match');
+      setTimeout(() => {
+        const expected = normalizeHash(expectedEl.value);
+        if (!expected) setStatus('Hash calculated. Paste an expected hash to compare.', 'warn');
+      }, 1200);
+    } catch (e) {
+      setStatus('Copy failed. Select and copy manually.', 'warn');
+    }
+  }
+
+  ['dragenter','dragover'].forEach(evt => drop.addEventListener(evt, (e) => {
+    e.preventDefault(); e.stopPropagation();
+    drop.style.borderColor = 'rgba(251,113,133,.65)';
+  }));
+  ['dragleave','drop'].forEach(evt => drop.addEventListener(evt, (e) => {
+    e.preventDefault(); e.stopPropagation();
+    drop.style.borderColor = 'rgba(148,163,184,.45)';
+  }));
+  drop.addEventListener('drop', (e) => {
+    if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) {
+      fileEl.files = e.dataTransfer.files;
+      updateButtons();
+    }
+  });
+
+  fileEl.addEventListener('change', updateButtons);
+  algEl.addEventListener('change', () => { if (fileEl.files.length) updateButtons(); });
+  expectedEl.addEventListener('input', () => {
+    const expected = normalizeHash(expectedEl.value);
+    const current = normalizeHash(hashEl.textContent);
+    if (current && current !== '-' && current !== 'working…' && expected) {
+      const ok = current === expected;
+      setStatus(ok ? 'MATCH - file hash matches expected value.' : 'NO MATCH - do not trust this file.', ok ? 'match' : 'nomatch');
+    } else if (fileEl.files.length) setStatus('Ready.', 'warn');
+  });
+
+  calcBtn.addEventListener('click', calculate);
+  copyBtn.addEventListener('click', copyHash);
+
+  updateButtons();
+})();
+</script>
+</body>
+</html>
