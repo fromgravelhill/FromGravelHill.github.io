@@ -1,152 +1,520 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="auto">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>From Gravel Hill</title>
-  <meta name="description" content="From Gravel Hill: The hub for Marc MacArthur’s projects, writing, and resources." />
-  <meta property="og:title" content="From Gravel Hill" />
-  <meta property="og:description" content="The hub for my projects, writing, and resources." />
+  <title>From Gravel Hill Enterprises</title>
+  <meta name="description" content="From Gravel Hill Enterprises: the hub for Marc MacArthur’s projects, resources, and services." />
+  <meta property="og:title" content="From Gravel Hill Enterprises" />
+  <meta property="og:description" content="The hub for my projects, resources, and services." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#0f172a" />
   <style>
     :root {
       --bg: #0b1020;
+      --bg-soft: #121933;
+      --bg-deep: #1b2140;
       --fg: #e5e7eb;
-      --muted: #a3a3a3;
-      --card: #11152a;
-      --card-hover: #1a1f3a;
+      --muted: #aeb6c7;
+      --card: rgba(18, 24, 47, .9);
+      --card-hover: rgba(24, 31, 59, .96);
+      --card-border: rgba(148, 163, 184, .18);
+      --section-surface: rgba(15, 23, 42, .4);
+      --section-border: rgba(148, 163, 184, .16);
       --accent: #7dd3fc;
-      --btn-fg: #0b1020;
-      --ring: rgba(125, 211, 252, .4);
+      --btn-fg: #08111f;
+      --ring: rgba(125, 211, 252, .34);
+      --shadow: 0 20px 50px rgba(2, 6, 23, .22);
+      --shadow-soft: 0 14px 34px rgba(2, 6, 23, .12);
     }
-    @media (prefers-color-scheme: light) {
-      :root {
-        --bg: #f8fafc;
-        --fg: #0b1020;
-        --muted: #4b5563;
-        --card: #ffffff;
-        --card-hover: #f1f5f9;
-        --accent: #0369a1;
-        --btn-fg: #ffffff;
-        --ring: rgba(3, 105, 161, .25);
-      }
-    }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0; font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-      background: radial-gradient(1200px 600px at 70% -10%, rgba(125,211,252,.12), transparent),
-                  radial-gradient(800px 400px at 0% 100%, rgba(99,102,241,.10), transparent),
-                  var(--bg);
-      color: var(--fg);
-    }
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 56px 20px 32px; }
-    header { text-align: center; margin-bottom: 28px; }
-/*    .badge { display:inline-block; letter-spacing:.08em; font-weight:600; font-size:.75rem; padding:.25rem .5rem; border:1px solid var(--accent); color:var(--accent); border-radius:9999px; } */
-    h1 { margin: 10px 0 6px; font-size: clamp(1.6rem, 3.2vw, 2.4rem); line-height:1.15; }
-    p.lead { margin: 0; color: var(--muted); max-width: 60ch; margin-inline: auto; }
-    .topbar { display:flex; justify-content: space-between; align-items:center; gap: 12px; margin: 18px 0 8px; }
-    .search { flex: 1; max-width: 420px; margin-left:auto; }
-    input[type="search"]{
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(148,163,184,.25);
-      background: rgba(2,6,23,.18);
-      color: var(--fg);
-      outline: none;
-    }
-    @media (prefers-color-scheme: light) {
-      input[type="search"]{ background: rgba(255,255,255,.7); }
-    }
-    input[type="search"]:focus { box-shadow: 0 0 0 4px var(--ring); border-color: rgba(148,163,184,.4); }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-      margin-top: 22px;
-    }
-    @media (max-width: 720px) {
-      .grid { grid-template-columns: 1fr; }
-    }
-    .card {
-      background: var(--card);
-      border: 1px solid rgba(148,163,184,.15);
-      border-radius: 16px;
-      padding: 18px;
-      transition: transform .15s ease, background-color .15s ease, border-color .15s ease;
-    }
-    .card:hover, .card:focus-within { background: var(--card-hover); transform: translateY(-1px); border-color: rgba(148,163,184,.28); }
-    .card h3 { margin: 0 0 .25rem; font-size: 1.1rem; }
-    .card p { margin: 0 0 12px; color: var(--muted); }
-    .meta { font-size: .8rem; color: var(--muted); }
-    .actions { display:flex; gap:8px; margin-top: 10px; }
-    .btn {
-      display:inline-block; text-decoration:none; font-weight:600; border-radius: 10px; padding: .55rem .8rem; border:1px solid var(--accent);
-      background: var(--accent); color: var(--btn-fg);
-    }
-    .btn.ghost { background: transparent; color: var(--accent); }
-    .card:focus-within .btn, .btn:focus { outline: none; box-shadow: 0 0 0 4px var(--ring); }
-    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
-    footer { margin-top: 32px; padding: 18px 0; border-top: 1px dashed rgba(148,163,184,.25); text-align: center; color: var(--muted); font-size: .9rem; }
 
-    /* Divider + secondary "Tools & Notes" row */
-    .divider { margin: 26px 0 18px; border-top: 1px dashed rgba(148,163,184,.28); }
-    .section-title { margin: 0; font-size: 1.05rem; letter-spacing: .02em; }
-    .section-lead { margin: 6px 0 0; color: var(--muted); font-size: .95rem; }
-    .tools-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-      margin-top: 14px;
+    html[data-theme="light"] {
+      --bg: #f5f7fb;
+      --bg-soft: #edf2f8;
+      --bg-deep: #e4ebf5;
+      --fg: #102033;
+      --muted: #4b5a71;
+      --card: rgba(255, 255, 255, .92);
+      --card-hover: rgba(255, 255, 255, .98);
+      --card-border: rgba(148, 163, 184, .22);
+      --section-surface: rgba(255, 255, 255, .76);
+      --section-border: rgba(148, 163, 184, .2);
+      --accent: #12699f;
+      --btn-fg: #ffffff;
+      --ring: rgba(18, 105, 159, .22);
+      --shadow: 0 18px 44px rgba(15, 23, 42, .12);
+      --shadow-soft: 0 12px 28px rgba(15, 23, 42, .08);
     }
-    @media (max-width: 900px) { .tools-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (max-width: 720px) { .tools-grid { grid-template-columns: 1fr; } }
-    .card.tool {
-      border-radius: 18px;
-      height: 100%;
+
+    html[data-theme="light"] .services-block {
+      --section-accent: #1d6fa5 !important;
+      --section-ring: rgba(29, 111, 165, .20) !important;
+    }
+
+    html[data-theme="light"] .gospel-block {
+      --section-accent: #1f7a43 !important;
+      --section-ring: rgba(31, 122, 67, .18) !important;
+    }
+
+    html[data-theme="light"] .personal-block {
+      --section-accent: #7253c6 !important;
+      --section-ring: rgba(114, 83, 198, .18) !important;
+    }
+
+    html[data-theme="light"] .tools-block {
+      --section-accent: #a16207 !important;
+      --section-ring: rgba(161, 98, 7, .18) !important;
+    }
+
+    html[data-theme="light"] .portfolio-block {
+      --section-accent: #b8425b !important;
+      --section-ring: rgba(184, 66, 91, .18) !important;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-height: 100%; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font: 16px/1.65 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--fg);
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(70rem 44rem at 10% -10%, rgba(110, 193, 255, .12), transparent 60%),
+        radial-gradient(56rem 34rem at 90% 18%, rgba(160, 124, 255, .08), transparent 60%),
+        radial-gradient(48rem 30rem at 50% 100%, rgba(88, 166, 106, .08), transparent 58%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 48%, var(--bg-deep) 100%);
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    a { color: inherit; }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 56px 20px 32px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 34px;
+    }
+
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: min(100%, 560px);
+      min-height: 150px;
+      margin-bottom: 12px;
+    }
+
+    .brand-mark img {
+      max-width: 100%;
+      width: auto;
+      max-height: 20vh;
+      height: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    h1 {
+      margin: 10px 0 8px;
+      font-size: clamp(1.95rem, 4vw, 3.2rem);
+      line-height: 1.05;
+      letter-spacing: -.03em;
+    }
+
+    p.lead {
+      margin: 0 auto;
+      color: var(--muted);
+      max-width: 62ch;
+      font-size: clamp(1rem, 1.6vw, 1.08rem);
+    }
+
+    .sections {
       display: flex;
       flex-direction: column;
-    }
-    .card.tool .actions {
-      margin-top: auto;
+      gap: 18px;
     }
 
-    /* Services section (separate from Sites + Tools) */
-    .services-grid{
-      display:flex;
-      flex-wrap:wrap;
-      gap:16px;
-      justify-content:center;
-      margin-top:14px;
-    }
-    .services-grid > .card.service{
-      flex: 0 1 calc((100% - 16px)/2); /* 2 across */
-      min-width: 260px;
-      max-width: 540px;
+    .section-block {
+      --section-accent: var(--accent);
+      --section-ring: var(--ring);
       position: relative;
       overflow: hidden;
+      border-radius: 26px;
+      border: 1px solid var(--section-border);
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0)), var(--section-surface);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      backdrop-filter: blur(10px);
     }
+
+    .section-block::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--section-accent), transparent 78%);
+      opacity: .95;
+    }
+
+    .section-block::after {
+      content: "";
+      position: absolute;
+      inset: auto -70px -110px auto;
+      width: 280px;
+      height: 280px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(255,255,255,.14), transparent 62%);
+      opacity: .14;
+      pointer-events: none;
+    }
+
+    .section-head {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      margin: 0;
+      color: var(--section-accent);
+      font-size: clamp(1.45rem, 2.1vw, 1.95rem);
+      line-height: 1.1;
+      letter-spacing: -.02em;
+    }
+
+    .section-lead {
+      margin: 6px 0 0;
+      color: var(--muted);
+      max-width: 64ch;
+      font-size: .98rem;
+    }
+
+    .section-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .section-grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    @media (max-width: 980px) {
+      .section-grid,
+      .section-grid.cols-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
     @media (max-width: 720px) {
-      .services-grid > .card.service{ flex-basis: 100%; }
+      .wrap { padding: 38px 16px 24px; }
+      .section-block { padding: 18px; border-radius: 20px; }
+      .section-grid,
+      .section-grid.cols-3 { grid-template-columns: 1fr; }
+      h1 { margin-top: 6px; }
     }
-    .card.service{
-      border-radius: 18px;
-      height: 100%;
-      display:flex;
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      min-height: 100%;
+      display: flex;
       flex-direction: column;
+      border-radius: 20px;
+      border: 1px solid var(--card-border);
+      background: var(--card);
+      box-shadow: var(--shadow-soft);
+      padding: 18px;
+      transition: transform .16s ease, border-color .16s ease, background-color .16s ease, box-shadow .16s ease;
     }
-    .card.service::before{
-      content:"";
-      position:absolute;
-      left:0; right:0; top:0;
-      height:4px;                /* subtle accent bar */
-      background: var(--accent); /* uses per-card accent */
-      opacity:.95;
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: var(--section-accent);
+      opacity: .95;
     }
-    .card.service .actions{
-      margin-top: auto;          /* aligns buttons */
+
+    .card::after {
+      content: "";
+      position: absolute;
+      right: -24px;
+      bottom: -24px;
+      width: 88px;
+      height: 88px;
+      pointer-events: none;
+      opacity: .16;
+    }
+
+    .card:hover,
+    .card:focus-within {
+      transform: translateY(-2px);
+      background: var(--card-hover);
+      border-color: var(--section-accent);
+      box-shadow: 0 18px 34px rgba(2, 6, 23, .16);
+    }
+
+    .card h3 {
+      margin: 0 0 .34rem;
+      font-size: 1.13rem;
+      line-height: 1.22;
+    }
+
+    .card p {
+      margin: 0 0 10px;
+      color: var(--muted);
+    }
+
+    .meta {
+      margin-top: auto;
+      padding-top: 6px;
+      color: var(--muted);
+      font-size: .84rem;
+      word-break: break-word;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 11px;
+      padding: .58rem .88rem;
+      border: 1px solid var(--section-accent);
+      background: var(--section-accent);
+      color: var(--btn-fg);
+    }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--section-accent);
+    }
+
+    .btn:focus,
+    .card:focus-within .btn {
+      outline: none;
+      box-shadow: 0 0 0 4px var(--section-ring);
+    }
+
+    .services-block {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)),
+        linear-gradient(135deg, rgba(56,189,248,.05), rgba(255,255,255,0) 46%),
+        var(--section-surface);
+    }
+
+    .services-block .card {
+      border-radius: 18px;
+    }
+
+    .gospel-block {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0)),
+        radial-gradient(36rem 24rem at 100% 0%, rgba(34,197,94,.08), transparent 55%),
+        var(--section-surface);
+    }
+
+    .gospel-block .card::after {
+      border-radius: 999px;
+      border: 1px solid var(--section-accent);
+    }
+
+    .services-block .card::after {
+      border-radius: 22px;
+      border: 1px solid var(--section-accent);
+      transform: rotate(18deg);
+    }
+
+    .personal-block {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0)),
+        radial-gradient(34rem 24rem at 0% 0%, rgba(167,139,250,.09), transparent 52%),
+        var(--section-surface);
+    }
+
+    .personal-block .card {
+      border-radius: 22px;
+    }
+
+    .personal-block .card::after {
+      border-radius: 999px;
+      border: 1px solid var(--section-accent);
+      box-shadow: 0 0 0 12px rgba(0,0,0,0);
+      outline: 1px solid rgba(184,149,255,.16);
+      outline-offset: -12px;
+    }
+
+    .personal-block .card::before {
+      background: linear-gradient(90deg, var(--section-accent), rgba(255,255,255,0));
+    }
+
+    .tools-block {
+      background: var(--section-surface);
+      box-shadow: none;
+    }
+
+    .tools-block::after { display: none; }
+
+    .tools-block .card {
+      border-radius: 16px;
+      box-shadow: none;
+    }
+
+    .tools-block .card:hover,
+    .tools-block .card:focus-within {
+      box-shadow: 0 10px 22px rgba(2, 6, 23, .10);
+    }
+
+    .tools-block .card::after {
+      border-radius: 999px;
+      border: 1px dashed var(--section-accent);
+      width: 78px;
+      height: 78px;
+      right: -20px;
+      bottom: -20px;
+      opacity: .14;
+    }
+
+    .portfolio-block {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0)),
+        radial-gradient(34rem 24rem at 100% 10%, rgba(251,113,133,.09), transparent 52%),
+        var(--section-surface);
+    }
+
+    .portfolio-card {
+      padding: 0;
+    }
+
+    .portfolio-block .card::after {
+      border-radius: 999px;
+      border: 1px solid var(--section-accent);
+      width: 96px;
+      height: 96px;
+      right: -30px;
+      bottom: -30px;
+      opacity: .15;
+    }
+
+    .portfolio-card .portfolio-thumb {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-bottom: 1px solid var(--card-border);
+      background: rgba(148, 163, 184, .08);
+    }
+
+    .portfolio-card .portfolio-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: 16px 18px 18px;
+      min-height: 100%;
+    }
+
+    .portfolio-card .meta {
+      margin-top: 2px;
+      padding-top: 0;
+    }
+
+    footer {
+      margin-top: 26px;
+      padding: 20px 0 8px;
+      border-top: 1px dashed rgba(148,163,184,.25);
+      text-align: center;
+      color: var(--muted);
+      font-size: .94rem;
+    }
+
+    .theme-bar {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,.18);
+      background: var(--card);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .theme-bar span {
+      font-size: .92rem;
+      color: var(--muted);
+      user-select: none;
+    }
+
+    .theme-switch {
+      position: relative;
+      display: inline-flex;
+      width: 60px;
+      height: 32px;
+      flex-shrink: 0;
+    }
+
+    .theme-switch input {
+      position: absolute;
+      opacity: 0;
+      inset: 0;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .theme-switch .slider {
+      width: 100%;
+      height: 100%;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,.24);
+      background: rgba(148,163,184,.20);
+      transition: background-color .2s ease, border-color .2s ease;
+      position: relative;
+    }
+
+    .theme-switch .slider::before {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: var(--section-accent, var(--accent));
+      transition: transform .2s ease;
+      box-shadow: 0 4px 10px rgba(2,6,23,.22);
+    }
+
+    .theme-switch input:checked + .slider::before {
+      transform: translateX(28px);
+    }
+
+    .theme-switch input:focus-visible + .slider {
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+
+    .footer-note {
+      margin: 0;
+    }
+
+    .footer-note a {
+      text-decoration-thickness: 1px;
+      text-underline-offset: 2px;
     }
   </style>
 </head>
@@ -154,85 +522,118 @@
   <a href="#content" class="sr-only">Skip to content</a>
   <div class="wrap">
     <header>
-      <img src="assets/images/landing.png" alt="From Gravel Hill" style="height: 20vh; width: auto;">
-
+      <div class="brand-mark">
+        <img id="site-logo" src="assets/images/landing.png" alt="From Gravel Hill Enterprises" />
+      </div>
       <h1>Welcome</h1>
-      <p class="lead">I’m Marc MacArthur, this is the hub for my projects. <BR> Pick a destination below to explore.</p>
+      <p class="lead">I’m Marc MacArthur. This is the main hub for From Gravel Hill Enterprises</p>
     </header>
 
-    <main id="content" class="grid" aria-live="polite"></main>
+    <main id="content" class="sections" aria-live="polite">
+      <section class="section-block services-block" style="--section-accent:#54aef8; --section-ring:rgba(84,174,248,.28);" aria-labelledby="services-title">
+        <div class="section-head">
+          <h2 id="services-title" class="section-title">Services</h2>
+          <p class="section-lead">Professional offerings and practical support</p>
+        </div>
+        <div class="section-grid" id="services" aria-live="polite"></div>
+      </section>
 
-    <div class="divider" aria-hidden="true"></div>
+      <section class="section-block gospel-block" style="--section-accent:#60cf85; --section-ring:rgba(96,207,133,.24);" aria-labelledby="gospel-title">
+        <div class="section-head">
+          <h2 id="gospel-title" class="section-title">Gospel</h2>
+          <p class="section-lead">Ministry-focused resources and hymn materials</p>
+        </div>
+        <div class="section-grid" id="gospel" aria-live="polite"></div>
+      </section>
 
-    <section class="services" aria-labelledby="services-title">
-      <h2 id="services-title" class="section-title">Services</h2>
-      <p class="section-lead"></p>
-      <div class="services-grid" id="services" aria-live="polite"></div>
-    </section>
+      <section class="section-block personal-block" style="--section-accent:#b895ff; --section-ring:rgba(184,149,255,.24);" aria-labelledby="personal-title">
+        <div class="section-head">
+          <h2 id="personal-title" class="section-title">Personal</h2>
+          <p class="section-lead">Writing, background, and personal-interest projects</p>
+        </div>
+        <div class="section-grid" id="personal" aria-live="polite"></div>
+      </section>
 
-    <div class="divider" aria-hidden="true"></div>
+      <section class="section-block tools-block" style="--section-accent:#f0ad3b; --section-ring:rgba(240,173,59,.22);" aria-labelledby="tools-title">
+        <div class="section-head">
+          <h2 id="tools-title" class="section-title">Tools &amp; Notes</h2>
+          <p class="section-lead">Small utilities and reference pages hosted here</p>
+        </div>
+        <div class="section-grid" id="tools" aria-live="polite"></div>
+      </section>
 
-    <section class="tools" aria-labelledby="tools-title">
-      <h2 id="tools-title" class="section-title">Tools &amp; Notes</h2>
-      <p class="section-lead">Small utilities and reference pages hosted here.</p>
-      <div class="tools-grid" id="tools" aria-live="polite"></div>
-    </section>
+      <section class="section-block portfolio-block" style="--section-accent:#ff879c; --section-ring:rgba(255,135,156,.24);" aria-labelledby="portfolio-title">
+        <div class="section-head">
+          <h2 id="portfolio-title" class="section-title">Previous Work Examples</h2>
+          <p class="section-lead">A few website projects I have designed or worked on</p>
+        </div>
+        <div class="section-grid" id="portfolio" aria-live="polite"></div>
+      </section>
+    </main>
 
     <footer>
-      &copy; <span id="year"></span>  FromGravelHill.ca · Last updated: 2026-02-27 · <a href="mailto:marc@fromgravelhill.ca">Contact</a>
+      <div class="theme-bar" aria-label="Theme switcher">
+        <span>Light</span>
+        <label class="theme-switch">
+          <span class="sr-only">Toggle light and dark theme</span>
+          <input id="theme-toggle" type="checkbox" />
+          <span class="slider" aria-hidden="true"></span>
+        </label>
+        <span>Dark</span>
+      </div>
+      <p class="footer-note">&copy; <span id="year"></span> From Gravel Hill Enterprises · <a href="https://fromgravelhill.ca/">fromgravelhill.ca</a> · <a href="mailto:info@fromgravelhill.ca">info@fromgravelhill.ca</a> · <a href="mailto:marc@fromgravelhill.ca">marc@fromgravelhill.ca</a></p>
     </footer>
   </div>
 
   <script>
-    // EDIT THIS LIST
-    const sites = [
+    const services = [
       {
-        name: "Musings from Gravel Hill",
-        url: "https://blog.fromgravelhill.ca/",
-        desc: "Personal writing, poems, and notes",
-        subdomain: "blog.fromgravelhill.ca"
+        name: "Web Design from Gravel Hill",
+        url: "/web-design/",
+        desc: "Simple sites, WordPress builds, maintenance, and domain setup",
+        meta: "Website design and practical support"
       },
+      {
+        name: "Bookkeeping from Gravel Hill",
+        url: "/bookkeeping/",
+        desc: "Bookkeeping support for small business records, software, and upkeep",
+        meta: "Bookkeeping and record support"
+      }
+    ];
+
+    const gospel = [
       {
         name: "The Gospel from Gravel Hill",
         url: "https://gospel.fromgravelhill.ca/",
         desc: "Articles, audio, tracts, charts, and books",
-        subdomain: "gospel.fromgravelhill.ca"
+        meta: "gospel.fromgravelhill.ca"
       },
       {
         name: "Hymns from Gravel Hill",
         url: "https://hymns.fromgravelhill.ca/",
-        desc: "Various Hymn Books used by my local assembly",
-        subdomain: "Hymns.fromgravelhill.ca"
-      },
+        desc: "Hymn books and music resources used by my local assembly",
+        meta: "hymns.fromgravelhill.ca"
+      }
+    ];
+
+    const personal = [
       {
-        name: "Bookkeeping from Gravel Hill",
-        url: "https://ledger.fromgravelhill.ca/",
-        desc: "Practical, reliable bookkeeping in rural PEI",
-        subdomain: "ledger.fromgravelhill.ca"
+        name: "Musings from Gravel Hill",
+        url: "https://blog.fromgravelhill.ca/",
+        desc: "Personal writing, poems, and notes",
+        meta: "blog.fromgravelhill.ca"
       },
       {
         name: "History",
-        url: "https://history.fromgravelhill.ca",
-        desc: "Local History projects, articles, and resources",
-        subdomain: "History.fromgravelhill.ca"
+        url: "https://history.fromgravelhill.ca/",
+        desc: "Local history projects, articles, and resources",
+        meta: "history.fromgravelhill.ca"
       },
       {
         name: "About Me",
-        url: "https://about.fromgravelhill.ca",
-        desc: "Where to find me online",
-        subdomain: "about.fromgravelhill.ca"
-      }
-      // Add more entries here…
-    ];
-
-    const services = [
-      {
-        name: "Web Pricing",
-        url: "/pricing/",
-        desc: "Pricing menu for basic website builds and updates",
-        meta: "CAD ranges",
-        accent: "#38bdf8",
-        ring: "rgba(56,189,248,.35)"
+        url: "https://about.fromgravelhill.ca/",
+        desc: "Background information and where to find me online",
+        meta: "about.fromgravelhill.ca"
       }
     ];
 
@@ -241,117 +642,169 @@
         name: "QR Code Generator",
         url: "/qr/",
         desc: "Generate QR codes for URLs or text",
-        meta: "",
-        accent: "#34d399",
-        ring: "rgba(52,211,153,.35)"
+        meta: ""
       },
       {
         name: "My Public Key",
         url: "/keys/",
         desc: "My OpenPGP public key",
-        meta: "",
-        accent: "#a78bfa",
-        ring: "rgba(167,139,250,.35)"
+        meta: ""
       },
       {
         name: "Email Encryption (OpenPGP)",
         url: "/email-encryption/",
-        desc: "How to send signed/encrypted email",
-        meta: "",
-        accent: "#fbbf24",
-        ring: "rgba(251,191,36,.30)"
+        desc: "How to send signed or encrypted email",
+        meta: ""
       },
       {
         name: "SSH & GitHub Keys",
         url: "/ssh-github/",
-        desc: "Generate SSH keys for Github",
-        meta: "",
-        accent: "#60a5fa",
-        ring: "rgba(96,165,250,.35)"
+        desc: "Generate SSH keys for GitHub",
+        meta: ""
       },
       {
         name: "Checksum Tool",
         url: "/checksum/",
-        desc: "Calculate SHA-256 (and more)",
-        meta: "",
-        accent: "#fb7185",
-        ring: "rgba(251,113,133,.30)"
+        desc: "Calculate SHA-256 and other hashes",
+        meta: ""
       },
       {
         name: "Verify Downloads",
         url: "/checksums/",
-        desc: "How to verify downloads using checksums and signatures.",
-        meta: "",
-        accent: "#22c55e",
-        ring: "rgba(34,197,94,.30)"
+        desc: "Verify downloads using checksums and signatures",
+        meta: ""
       }
     ];
 
+    const portfolio = [
+      {
+        name: "O’Leary Gospel Hall",
+        url: "https://olearygospelhall.ca/",
+        desc: "Assembly website and gospel hall information",
+        meta: "olearygospelhall.ca",
+        image: "assets/images/examples/oleary-gospel-hall.png"
+      },
+      {
+        name: "Rosebank Gospel Hall",
+        url: "https://rosebankgospelhall.ca/",
+        desc: "Assembly website and local meeting information",
+        meta: "rosebankgospelhall.ca",
+        image: "assets/images/examples/rosebank-gospel-hall.png"
+      },
+      {
+        name: "JCMW",
+        url: "https://jcmw.fromgravelhill.ca/",
+        desc: "A site build and layout project hosted under From Gravel Hill Enterprises",
+        meta: "jcmw.fromgravelhill.ca",
+        image: "assets/images/examples/jcmw.png"
+      },
+      {
+        name: "High Arctic Good News",
+        url: "https://higharcticgoodnews.ca/",
+        desc: "A gospel-focused site project with scripture and media resources",
+        meta: "higharcticgoodnews.ca",
+        image: "assets/images/examples/high-arctic-good-news.png"
+      }
+    ];
 
-    const grid = document.querySelector(".grid");
-    const q = document.getElementById("q");
     const year = document.getElementById("year");
     year.textContent = new Date().getFullYear();
 
-    function render(list) {
-      grid.innerHTML = list.map(s => `
+    function applyGridColumns(el, count) {
+      if (!el) return;
+      el.classList.toggle("cols-3", count >= 3);
+    }
+
+    function renderCards(targetId, list, buttonLabel) {
+      const el = document.getElementById(targetId);
+      if (!el) return;
+      applyGridColumns(el, list.length);
+      el.innerHTML = list.map(item => `
         <article class="card" tabindex="0">
-          <h3>${s.name}</h3>
-          <p>${s.desc}</p>
-          <div class="meta">${s.subdomain}</div>
+          <h3>${item.name}</h3>
+          <p>${item.desc}</p>
+          <div class="meta">${item.meta || "&nbsp;"}</div>
           <div class="actions">
-            <a class="btn" href="${s.url}" rel="noopener">Visit</a>
+            <a class="btn" href="${item.url}" rel="noopener">${buttonLabel}</a>
           </div>
         </article>
       `).join("");
     }
 
-    const toolsEl = document.getElementById("tools");
-
-    const servicesEl = document.getElementById("services");
-
-    function renderServices(list) {
-      if (!servicesEl) return;
-      servicesEl.innerHTML = list.map(s => `
-        <article class="card service" style="--accent:${s.accent}; --ring:${s.ring};" tabindex="0">
-          <h3>${s.name}</h3>
-          <p>${s.desc}</p>
-          <div class="meta">${s.meta}</div>
-          <div class="actions">
-            <a class="btn" href="${s.url}">View</a>
+    function renderPortfolio(targetId, list) {
+      const el = document.getElementById(targetId);
+      if (!el) return;
+      applyGridColumns(el, list.length);
+      el.innerHTML = list.map(item => `
+        <article class="card portfolio-card" tabindex="0">
+          <img class="portfolio-thumb" src="${item.image}" alt="${item.name} preview image" loading="lazy" />
+          <div class="portfolio-content">
+            <h3>${item.name}</h3>
+            <p>${item.desc}</p>
+            <div class="meta">${item.meta}</div>
+            <div class="actions">
+              <a class="btn" href="${item.url}" rel="noopener">Visit</a>
+            </div>
           </div>
         </article>
       `).join("");
     }
 
+    renderCards("services", services, "View");
+    renderCards("gospel", gospel, "Visit");
+    renderCards("personal", personal, "Visit");
+    renderCards("tools", tools, "Open");
+    renderPortfolio("portfolio", portfolio);
 
-    function renderTools(list) {
-      toolsEl.innerHTML = list.map(t => `
-        <article class="card tool" style="--accent:${t.accent}; --ring:${t.ring};" tabindex="0">
-          <h3>${t.name}</h3>
-          <p>${t.desc}</p>
-          <div class="meta">${t.meta}</div>
-          <div class="actions">
-            <a class="btn" href="${t.url}">Open</a>
-          </div>
-        </article>
-      `).join("");
+    const root = document.documentElement;
+    const toggle = document.getElementById("theme-toggle");
+    const logo = document.getElementById("site-logo");
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+
+    function preferredTheme() {
+      const savedTheme = localStorage.getItem("fgh-theme");
+      if (savedTheme === "light" || savedTheme === "dark") return savedTheme;
+      return mq.matches ? "dark" : "light";
     }
 
-    render(sites);
-    renderServices(services);
-    renderTools(tools);
+    function setLogo(theme) {
+      const candidates = theme === "dark"
+        ? ["assets/images/logo-dark.png", "assets/images/logo-white.png", "assets/images/landing.png"]
+        : ["assets/images/logo-light.png", "assets/images/logo-black.png", "assets/images/landing.png"];
 
-
-    if (q) {
-      q.addEventListener("input", () => {
-        const v = q.value.trim().toLowerCase();
-        const filtered = !v ? sites :
-          sites.filter(s => (s.name + " " + s.desc + " " + s.subdomain).toLowerCase().includes(v));
-        render(filtered);
-      });
+      let index = 0;
+      function tryNext() {
+        if (index >= candidates.length) return;
+        logo.onerror = () => {
+          index += 1;
+          tryNext();
+        };
+        logo.src = candidates[index];
+      }
+      tryNext();
     }
 
+    function applyTheme(theme) {
+      root.setAttribute("data-theme", theme);
+      toggle.checked = theme === "dark";
+      setLogo(theme);
+      const themeColor = theme === "dark" ? "#0f172a" : "#f5f7fb";
+      const metaTheme = document.querySelector('meta[name="theme-color"]');
+      if (metaTheme) metaTheme.setAttribute("content", themeColor);
+    }
+
+    applyTheme(preferredTheme());
+
+    toggle.addEventListener("change", () => {
+      const theme = toggle.checked ? "dark" : "light";
+      localStorage.setItem("fgh-theme", theme);
+      applyTheme(theme);
+    });
+
+    mq.addEventListener("change", (event) => {
+      if (localStorage.getItem("fgh-theme")) return;
+      applyTheme(event.matches ? "dark" : "light");
+    });
   </script>
 </body>
 </html>

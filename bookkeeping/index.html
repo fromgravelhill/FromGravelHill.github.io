@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bookkeeping from Gravel Hill | From Gravel Hill Enterprises</title>
+  <meta name="description" content="Practical, reliable bookkeeping support from From Gravel Hill Enterprises for small businesses on PEI. Invoicing, reconciliations, payables, simple reporting, basic payroll, and Sage 50 (Canadian) support." />
+  <link rel="icon" href="ledger.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --fg: #e9edf2;
+      --muted: #b7c0cc;
+      --primary: #89b4fa;
+      --accent: #f2cc8f;
+      --card: #101419;
+      --line: #222833;
+    }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #0a0c10 0%, #0c1117 100%);
+      color: var(--fg);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.65;
+    }
+    .container { max-width: 1000px; padding: 24px; margin: 0 auto; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 0; }
+    .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; color: var(--fg); }
+    .brand h1 { font-size: 1.1rem; margin: 0; letter-spacing: 0.2px; font-weight: 600; }
+    .tag { color: var(--muted); font-size: 0.95rem; margin-top: 2px; }
+    .btn { display: inline-block; padding: 12px 18px; border: 1px solid var(--line); background: #141a22; color: var(--fg); border-radius: 12px; text-decoration: none; font-weight: 600; }
+    .btn:hover { border-color: var(--primary); box-shadow: 0 0 0 3px #89b4fa22; }
+    .btn.primary { background: linear-gradient(180deg, #1a2330, #111826); border: 1px solid #2a3646; }
+    .hero { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 28px; align-items: center; padding: 28px 0 10px; }
+    .hero h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.2; margin: 0 0 12px; }
+    .hero p { margin-top: 0; color: var(--muted); }
+    .grid { display: grid; gap: 16px; }
+    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .grid.cols-3, .grid.cols-2 { grid-template-columns: 1fr; }
+    }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+    .card h3 { margin-top: 0; font-size: 1.1rem; }
+    .muted { color: var(--muted); }
+    .section { padding: 22px 0; }
+    .section h2 { font-size: 1.4rem; margin: 0 0 12px; }
+    .list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+    .list li { display: flex; align-items: flex-start; gap: 10px; }
+    .check { width: 18px; height: 18px; border-radius: 6px; background: #1f2834; border: 1px solid #2a3646; display: inline-grid; place-items: center; margin-top: 2px; }
+    footer { padding: 28px 0 12px; color: var(--muted); font-size: 0.95rem; border-top: 1px solid var(--line); margin-top: 24px; }
+    .small { font-size: 0.9rem; }
+      /* Pills / badges */
+    .badges { display:flex; flex-wrap:wrap; gap:8px; }
+    .badge { font-size:0.85rem; border:1px solid var(--line); padding:6px 10px; border-radius:999px; color:var(--muted); }
+    .pill { font-size:0.85rem; border:1px solid var(--line); padding:6px 10px; border-radius:999px; color:var(--muted); display:inline-flex; align-items:center; gap:8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a class="brand" href="./">
+        <img src="ledger.png" alt="Bookkeeping from Gravel Hill logo" width="40" height="40" style="border-radius:8px;">
+        <div>
+          <h1>Bookkeeping from Gravel Hill</h1>
+          <div class="tag">A service of From Gravel Hill Enterprises in rural PEI</div>
+        </div>
+      </a>
+      <nav>
+        <a class="btn" href="../">From Gravel Hill Enterprises</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div>
+        <h2>Make sense of the numbers. Keep your focus on the work.</h2>
+        <p>My name is <strong>Marc MacArthur</strong>. I help small businesses stay organized and on top of their books so you can concentrate on running the work that matters. I’m familiar with <strong>Sage 50 (Canadian)</strong> and use it where appropriate for day‑to‑day bookkeeping.</p>
+        <div class="badges">
+          <span class="badge">Bank & card reconciliations</span>
+          <span class="badge">Payables & receipts</span>
+          <span class="badge">Invoice tracking</span>
+          <span class="badge">Expense categorization</span>
+          <span class="badge">Basic payroll entries</span>
+          <span class="badge">Simple month‑end reports</span>
+        </div>
+        <p class="muted small" style="margin-top:10px">I’m not a CPA and I don’t offer tax filing or assurance services - I focus on accurate daily records you and your accountant can trust.</p>
+        <div style="margin-top:14px; display:flex; gap:10px; flex-wrap: wrap;">
+          <a class="btn primary" href="#contact">Request a quote</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="pill" style="margin-bottom:10px;">Bookkeeping workflow • Sage 50 support</div>
+        <ul class="list">
+          <li><span class="check" aria-hidden="true"></span><div>Enter bills, record payments, match receipts</div></li>
+          <li><span class="check" aria-hidden="true"></span><div>Monthly bank/credit card reconciliations</div></li>
+          <li><span class="check" aria-hidden="true"></span><div>Basic payroll entries & summaries</div></li>
+          <li><span class="check" aria-hidden="true"></span><div>Basic reporting: vendor ledgers, expense summaries</div></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="services" class="section">
+      <h2>Services</h2>
+      <div class="grid cols-3">
+        <div class="card"><h3>Monthly Bookkeeping</h3><p class="muted">Consistent entry of bills, payments, deposits, payroll entries, and reconciliations.</p></div>
+        <div class="card"><h3>Cleanup & Catch‑Up</h3><p class="muted">Bring months of records up to date and organize documents for a smooth hand‑off.</p></div>
+        <div class="card"><h3>Simple Reports</h3><p class="muted">Vendor summaries, expense breakdowns, and period‑end snapshots your accountant can use.</p></div>
+      </div>
+    </section>
+    <section id="about" class="section">
+      <h2>About</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>A practical approach, with local guidance</h3>
+          <p class="muted">I learned bookkeeping through hands‑on work, supported by some one‑on‑one guidance from an experienced local bookkeeper. The result is a clear, straightforward style — neat records, timely updates, and open communication.</p>
+        </div>
+        <div class="card">
+          <h3>Tools & Workflow</h3>
+          <p class="muted">I work with both digital and physical records, whether onsite or remotely. This includes handling scanned receipts, emailed PDFs, or hard‑copy invoices. I adapt to the way your business operates, while keeping everything organized and accessible.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <h2>Contact</h2>
+      <div class="grid cols-2">
+        <div class="card contact">
+          <p class="muted">Based in Prince Edward Island.</p>
+          <div>
+            <a class="btn primary" href="mailto:info@fromgravelhill.ca?subject=Bookkeeping%20Quote%20Request&body=Tell%20me%20a%20bit%20about%20your%20business%2C%20your%20current%20software%2C%20and%20what%20you%20need%20help%20with.">Request a quote by email</a>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Getting Started</h3>
+          <ol class="muted" style="margin:0; padding-left: 18px;">
+            <li>Text or email to outline your needs</li>
+            <li>Simple checklist & secure document handoff</li>
+            <li>Work begins promptly, with regular updates along the way</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© <span id="y"></span> From Gravel Hill Enterprises • Bookkeeping from Gravel Hill</div>
+      <div class="small"><a href="https://fromgravelhill.ca/" style="color:inherit;">fromgravelhill.ca</a> • <a href="mailto:info@fromgravelhill.ca" style="color:inherit;">info@fromgravelhill.ca</a> • <a href="mailto:marc@fromgravelhill.ca" style="color:inherit;">marc@fromgravelhill.ca</a></div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

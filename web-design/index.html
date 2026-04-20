@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Web Design from Gravel Hill | From Gravel Hill Enterprises</title>
+  <meta name="description" content="Straightforward website design, full WordPress builds, domain setup, content updates, and ongoing support from From Gravel Hill Enterprises." />
+  <meta property="og:title" content="Web Design from Gravel Hill" />
+  <meta property="og:description" content="Simple website builds, full WordPress sites, domain setup, and practical ongoing upkeep." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="../assets/images/web-design/web-design-logo.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --fg: #e9edf2;
+      --muted: #b7c0cc;
+      --primary: #7fb7ff;
+      --accent: #9fd7ff;
+      --card: #101419;
+      --line: #222833;
+    }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #0a0c10 0%, #0c1117 100%);
+      color: var(--fg);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.65;
+    }
+    .container { max-width: 1000px; padding: 24px; margin: 0 auto; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 0; }
+    .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; color: var(--fg); }
+    .brand h1 { font-size: 1.1rem; margin: 0; letter-spacing: 0.2px; font-weight: 600; }
+    .tag { color: var(--muted); font-size: 0.95rem; margin-top: 2px; }
+    .btn { display: inline-block; padding: 12px 18px; border: 1px solid var(--line); background: #141a22; color: var(--fg); border-radius: 12px; text-decoration: none; font-weight: 600; }
+    .btn:hover { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(127, 183, 255, 0.14); }
+    .btn.primary { background: linear-gradient(180deg, #1a2330, #111826); border: 1px solid #2a3646; }
+    .hero { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 28px; align-items: center; padding: 28px 0 10px; }
+    .hero h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.2; margin: 0 0 12px; }
+    .hero p { margin-top: 0; color: var(--muted); }
+    .grid { display: grid; gap: 16px; }
+    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @media (max-width: 900px) {
+      header { align-items: flex-start; }
+      nav { display: flex; flex-wrap: wrap; gap: 10px; }
+      .hero { grid-template-columns: 1fr; }
+      .grid.cols-3, .grid.cols-2 { grid-template-columns: 1fr; }
+    }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+    .card h3 { margin-top: 0; font-size: 1.1rem; }
+    .muted { color: var(--muted); }
+    .section { padding: 22px 0; }
+    .section h2 { font-size: 1.4rem; margin: 0 0 12px; }
+    .list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+    .list li { display: flex; align-items: flex-start; gap: 10px; }
+    .check { width: 18px; height: 18px; border-radius: 6px; background: #1f2834; border: 1px solid #2a3646; display: inline-grid; place-items: center; margin-top: 2px; }
+    footer { padding: 28px 0 12px; color: var(--muted); font-size: 0.95rem; border-top: 1px solid var(--line); margin-top: 24px; }
+    .small { font-size: 0.9rem; }
+    .badges { display:flex; flex-wrap:wrap; gap:8px; }
+    .badge { font-size:0.85rem; border:1px solid var(--line); padding:6px 10px; border-radius:999px; color:var(--muted); }
+    .pill { font-size:0.85rem; border:1px solid var(--line); padding:6px 10px; border-radius:999px; color:var(--muted); display:inline-flex; align-items:center; gap:8px; }
+    .pricing-note { margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a class="brand" href="./">
+        <img src="../assets/images/web-design/web-design-logo.png" alt="Web Design from Gravel Hill logo" width="40" height="40" style="border-radius:8px;">
+        <div>
+          <h1>Web Design from Gravel Hill</h1>
+          <div class="tag">A service of From Gravel Hill Enterprises</div>
+        </div>
+      </a>
+      <nav>
+        <a class="btn" href="../">From Gravel Hill Enterprises</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div>
+        <h2>Build something clear, useful, and easier to keep up over time.</h2>
+        <p>My name is <strong>Marc MacArthur</strong>. I build and maintain straightforward websites for people who need something clean, functional, and manageable without making the whole thing heavier than it needs to be. That can mean a simple static site, a <strong>WordPress</strong> site built from the ground up, domain setup when needed, or continued maintenance once the site is live.</p>
+        <div class="badges">
+          <span class="badge">Simple website builds</span>
+          <span class="badge">WordPress builds</span>
+          <span class="badge">Domain setup</span>
+          <span class="badge">Page additions</span>
+          <span class="badge">Mobile testing</span>
+          <span class="badge">Ongoing maintenance</span>
+        </div>
+        <p class="muted small" style="margin-top:10px">I focus on practical websites and practical upkeep. The goal is something that looks right, works well, can be built properly from the start, and is easier to manage going forward.</p>
+        <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn primary" href="#contact">Request a quote</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="pill" style="margin-bottom:10px;">Website builds • WordPress • Maintenance</div>
+        <ul class="list">
+          <li><span class="check" aria-hidden="true"></span><div>Build simple one-page or multi-page sites with clean structure</div></li>
+          <li><span class="check" aria-hidden="true"></span><div>Build WordPress sites from the ground up or maintain them over time when that suits the project best</div></li>
+          <li><span class="check" aria-hidden="true"></span><div>Handle edits, cleanup, restructuring, and content additions</div></li>
+          <li><span class="check" aria-hidden="true"></span><div>Keep sites responsive, readable, and easier to maintain</div></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="services" class="section">
+      <h2>Services</h2>
+      <div class="grid cols-3">
+        <div class="card"><h3>Simple website builds</h3><p class="muted">Landing pages, brochure-style websites, and small multi-page builds with clear structure and mobile-friendly layouts.</p></div>
+        <div class="card"><h3>WordPress builds and maintenance</h3><p class="muted">Full WordPress setup from the ground up, page building, content updates, ongoing upkeep, and practical help keeping an existing WordPress site in good order.</p></div>
+        <div class="card"><h3>Ongoing maintenance</h3><p class="muted">Regular updates, page edits, link cleanup, small feature additions, domain-related changes, and general site upkeep over time.</p></div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <h2>About</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>Built to fit the actual job</h3>
+          <p class="muted">Some projects need only a clean one-page presence. Others need multiple page types, better organization, or help straightening out an existing site. I try to match the work to the real need instead of forcing everything into one model.</p>
+        </div>
+        <div class="card">
+          <h3>Practical experience and steady support</h3>
+          <p class="muted">The work I’ve done has included simple static sites, business and personal websites, content-heavy pages, WordPress projects built and maintained over time, and polishing existing websites so they are easier to navigate and maintain. I can also help with domain setup when a project needs it. I work best with clear content, sensible revisions, and straightforward communication.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="fit" class="section">
+      <h2>What I can build or improve</h2>
+      <div class="grid cols-3">
+        <div class="card"><h3>Static and custom sites</h3><p class="muted">A good fit for simpler, faster sites that do not need a heavy backend and are easier to keep tidy.</p></div>
+        <div class="card"><h3>Business, personal, and resource sites</h3><p class="muted">Useful for business pages, personal sites, article collections, event pages, document libraries, and content that needs to be clearly organized.</p></div>
+        <div class="card"><h3>Existing-site cleanup</h3><p class="muted">For sites that already exist but need polish, restructuring, device testing, or clearer navigation.</p></div>
+      </div>
+    </section>
+
+    <section id="pricing" class="section">
+      <h2>General pricing guide</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>Project ranges</h3>
+          <ul class="list muted">
+            <li><span class="check" aria-hidden="true"></span><div><strong>Simple / low-friction build:</strong> $300–$900</div></li>
+            <li><span class="check" aria-hidden="true"></span><div><strong>Typical small site:</strong> $900–$1,300</div></li>
+            <li><span class="check" aria-hidden="true"></span><div><strong>Revision-heavy or more involved work:</strong> $1,300–$1,500</div></li>
+          </ul>
+          <p class="muted small pricing-note">These ranges keep the same general pricing already used before. Final quotes still depend on scope, complexity, and revision load.</p>
+        </div>
+        <div class="card">
+          <h3>Menu-style pricing</h3>
+          <ul class="list muted">
+            <li><span class="check" aria-hidden="true"></span><div><strong>Basic 1-page site:</strong> $200–$600</div></li>
+            <li><span class="check" aria-hidden="true"></span><div><strong>Repeated template-style page:</strong> $30–$75 per page</div></li>
+            <li><span class="check" aria-hidden="true"></span><div><strong>Custom page type:</strong> $100–$250 per page</div></li>
+            <li><span class="check" aria-hidden="true"></span><div><strong>Mobile cleanup, testing, and polish:</strong> $100–$200</div></li>
+            <li><span class="check" aria-hidden="true"></span><div><strong>Domain setup or transfer help:</strong> priced by scope</div></li>
+            <li><span class="check" aria-hidden="true"></span><div><strong>Ongoing hourly work:</strong> $30–$50 per hour</div></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <h2>Contact</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <p class="muted">Based in Prince Edward Island and available for practical website work, full WordPress builds, maintenance, and domain setup.</p>
+          <div style="margin-top:14px;">
+            <a class="btn primary" href="mailto:info@fromgravelhill.ca?subject=Website%20Design%20Quote%20Request&body=Tell%20me%20a%20bit%20about%20the%20site%20you%20need%2C%20whether%20it%20is%20new%20or%20existing%2C%20and%20what%20kind%20of%20help%20you%20are%20looking%20for.">Request a quote by email</a>
+          </div>
+          <p class="muted small" style="margin-top:14px;">Last updated: 2026-04-18</p>
+        </div>
+        <div class="card">
+          <h3>Getting Started</h3>
+          <ol class="muted" style="margin:0; padding-left: 18px;">
+            <li>Send over a short outline of the site or changes you have in mind</li>
+            <li>I review the scope, content, and setup and reply with a practical quote or next step</li>
+            <li>Work moves forward with clear updates and a manageable revision process</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© <span id="y"></span> From Gravel Hill Enterprises • Web Design from Gravel Hill</div>
+      <div class="small"><a href="https://fromgravelhill.ca/" style="color:inherit;">fromgravelhill.ca</a> • <a href="mailto:info@fromgravelhill.ca" style="color:inherit;">info@fromgravelhill.ca</a> • <a href="mailto:marc@fromgravelhill.ca" style="color:inherit;">marc@fromgravelhill.ca</a></div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-# FromGravelHill.ca - Website
+# From Gravel Hill Enterprises - Website
 
 [![Last Commit](https://img.shields.io/github/last-commit/fromgravelhill/FromGravelHill.github.io?logo=github)](https://github.com/fromgravelhill/FromGravelHill.github.io/commits/main)
 ![Static Site](https://img.shields.io/badge/Site-type%3A%20static-blue)
@@ -7,7 +7,7 @@
 ![Code License](https://img.shields.io/badge/Code%20License-MIT-green)
 ![Content License](https://img.shields.io/badge/Content%20License-CC%20BY--NC--ND%204.0-blue)
 
-A straightforward static site for **FromGravelHill.ca**.
+A straightforward static site for **From Gravel Hill Enterprises** at **https://fromgravelhill.ca/**.
 
 
 
