@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rosebank Gospel Hall App | From Gravel Hill Enterprises</title>
+<meta name="description" content="A free Android app for Rosebank Gospel Hall, a Gospel Hall Assembly in Rosebank, PEI: messages, videos and audio from rosebankgospelhall.ca." />
+<meta property="og:title" content="Rosebank Gospel Hall App" />
+<meta property="og:description" content="A free Android app for Rosebank Gospel Hall: messages, videos and audio in one place." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://fromgravelhill.ca/assets/images/examples/rosebank-gospel-hall-app.png" />
+<meta name="theme-color" content="#0f172a" />
+<style>
+:root {
+  --bg: #0b1020; --bg-soft: #121933; --bg-deep: #1b2140;
+  --fg: #e5e7eb; --muted: #aeb6c7;
+  --card: rgba(18, 24, 47, .9); --card-border: rgba(148, 163, 184, .18);
+  --accent: #60cf85; --btn-fg: #08111f; --ring: rgba(96, 207, 133, .34);
+  --shadow: 0 20px 50px rgba(2, 6, 23, .22);
+}
+html[data-theme="light"] {
+  --bg: #f5f7fb; --bg-soft: #edf2f8; --bg-deep: #e4ebf5;
+  --fg: #102033; --muted: #4b5a71;
+  --card: rgba(255, 255, 255, .92); --card-border: rgba(148, 163, 184, .22);
+  --accent: #1f7a43; --btn-fg: #ffffff; --ring: rgba(31, 122, 67, .22);
+  --shadow: 0 18px 44px rgba(15, 23, 42, .12);
+}
+* { box-sizing: border-box; }
+body {
+  min-height: 100vh; margin: 0;
+  font: 16px/1.65 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans";
+  color: var(--fg); background-color: var(--bg);
+  background-image: linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 48%, var(--bg-deep) 100%);
+  background-attachment: fixed;
+}
+a { color: var(--accent); }
+.wrap { max-width: 860px; margin: 0 auto; padding: 40px 20px 32px; }
+.back { display: inline-block; margin-bottom: 18px; font-weight: 600; text-decoration: none; }
+.back:hover { text-decoration: underline; }
+h1 { margin: 0 0 10px; font-size: clamp(1.9rem, 4vw, 2.8rem); line-height: 1.1; letter-spacing: -.03em; }
+h2 { margin: 0 0 10px; font-size: 1.35rem; color: var(--accent); }
+.lead { margin: 0 0 20px; color: var(--muted); font-size: 1.08rem; max-width: 62ch; }
+.card {
+  position: relative; overflow: hidden; margin-top: 18px; padding: 22px;
+  border-radius: 20px; border: 1px solid var(--card-border);
+  background: var(--card); box-shadow: var(--shadow);
+}
+.card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--accent); }
+.card p { margin: 0 0 10px; color: var(--muted); }
+.card ul, .card ol { margin: 0; padding-left: 1.2rem; color: var(--muted); }
+.card li { margin-bottom: 6px; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.btn {
+  display: inline-block; text-decoration: none; font-weight: 600; border-radius: 11px;
+  padding: .65rem 1rem; border: 1px solid var(--accent); background: var(--accent); color: var(--btn-fg);
+}
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--ring); }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 6px; }
+.fact { padding: 12px 14px; border-radius: 14px; border: 1px solid var(--card-border); }
+.fact strong { display: block; font-size: .8rem; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+footer { margin-top: 28px; padding-top: 18px; border-top: 1px dashed rgba(148,163,184,.25); color: var(--muted); font-size: .94rem; text-align: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="/">&larr; From Gravel Hill Enterprises</a>
+
+  <h1>Rosebank Gospel Hall App</h1>
+  <p class="lead">A free Android app for Rosebank Gospel Hall, a Gospel Hall Assembly in Rosebank, Prince Edward Island. Read, watch and listen to messages from <a href="https://rosebankgospelhall.ca/">rosebankgospelhall.ca</a> in one easy place.</p>
+
+  <div class="actions">
+    <a class="btn" href="https://github.com/Atrion/rosebank-gospel-hall-website-app/releases/latest" rel="noopener">Download for Android</a>
+    <a class="btn ghost" href="https://github.com/Atrion/rosebank-gospel-hall-website-app" rel="noopener">Source code</a>
+  </div>
+
+  <section class="card" aria-labelledby="what">
+    <h2 id="what">What it does</h2>
+    <ul>
+      <li>Browse every post with filters, search and sorting</li>
+      <li>Play audio messages in the background, with lock-screen controls</li>
+      <li>Watch videos full screen inside the app</li>
+      <li>Save posts to read again, even offline</li>
+      <li>Read What We Believe, Free Food Hamper and Resources</li>
+      <li>Light or dark theme and adjustable text size</li>
+      <li>Optional alerts when a new post is published</li>
+    </ul>
+  </section>
+
+  <section class="card" aria-labelledby="install">
+    <h2 id="install">How to install</h2>
+    <ol>
+      <li>On your Android phone, open the <strong>Download for Android</strong> link above.</li>
+      <li>Under Assets on that page, tap the file ending in <code>.apk</code>.</li>
+      <li>Open the downloaded file. If Android asks, allow installs from your browser.</li>
+      <li>Updates install over the top and keep your saved posts.</li>
+    </ol>
+    <p style="margin-top:12px">The app is not on Google Play. It needs Android 8.0 or newer.</p>
+  </section>
+
+  <section class="card" aria-labelledby="verify">
+    <h2 id="verify">Check your download</h2>
+    <p>Each release lists a SHA-256 checksum for its APK. You can compare it with your file using the <a href="/checksum/">checksum tool</a>, or see <a href="/checksums/">how to verify downloads</a>.</p>
+  </section>
+
+  <section class="card" aria-labelledby="about">
+    <h2 id="about">About the app</h2>
+    <div class="facts">
+      <div class="fact"><strong>Price</strong>Free</div>
+      <div class="fact"><strong>Privacy</strong>No accounts, ads or tracking. <a href="/rosebank-gospel-hall-app/privacy/">Privacy policy</a></div>
+      <div class="fact"><strong>License</strong>Apache-2.0 (code)</div>
+      <div class="fact"><strong>Built by</strong>From Gravel Hill Enterprises</div>
+    </div>
+    <p style="margin-top:14px">The sermons, articles, images and name belong to Rosebank Gospel Hall and their respective authors.</p>
+  </section>
+
+  <footer>
+    &copy; <span id="year"></span> From Gravel Hill Enterprises &middot; <a href="/">fromgravelhill.ca</a> &middot; <a href="/rosebank-gospel-hall-app/privacy/">Privacy</a> &middot; <a href="mailto:info@fromgravelhill.ca">info@fromgravelhill.ca</a>
+  </footer>
+</div>
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+const saved = localStorage.getItem("fgh-theme");
+const mq = window.matchMedia("(prefers-color-scheme: dark)");
+const theme = (saved === "light" || saved === "dark") ? saved : (mq.matches ? "dark" : "light");
+document.documentElement.setAttribute("data-theme", theme);
+const meta = document.querySelector('meta[name="theme-color"]');
+if (meta) meta.setAttribute("content", theme === "dark" ? "#0f172a" : "#f5f7fb");
+</script>
+</body>
+</html>
