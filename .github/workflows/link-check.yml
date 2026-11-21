@@ -30,6 +30,8 @@ jobs:
             --verbose
             --accept 200,206
             --exclude '^mailto:'
+            --exclude '^https?://(127\.0\.0\.1|localhost)'
+            --exclude '^https://fromgravelhill\.ca/'
             --root-dir .
             './**/*.html'
             './**/*.md'
