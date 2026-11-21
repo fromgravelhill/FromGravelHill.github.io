@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>QR Code Generator · From Gravel Hill Enterprises</title>
   <meta name="description" content="Generate QR codes for URLs or text." />
+  <link rel="canonical" href="https://fromgravelhill.ca/qr/">
+  <meta property="og:title" content="QR Code Generator">
+  <meta property="og:description" content="Generate QR codes for URLs or text.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fromgravelhill.ca/qr/">
+  <meta property="og:site_name" content="From Gravel Hill Enterprises">
+  <meta property="og:image" content="https://fromgravelhill.ca/assets/images/landing.png">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#0f172a" />
   <style>
 
@@ -309,14 +317,14 @@
   const elDownload = document.getElementById("download");
   const elClear = document.getElementById("clear");
   const qrBox = document.getElementById("qrBox");
-  const status = document.getElementById("status");
+  const elStatus = document.getElementById("status");
   const metaText = document.getElementById("metaText");
 
   let outputCanvas = null;
   let generatedText = "";
 
   function setStatus(message) {
-    status.textContent = message;
+    elStatus.textContent = message;
   }
 
   

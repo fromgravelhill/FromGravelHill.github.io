@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Checksum Tool · From Gravel Hill Enterprises</title>
   <meta name="description" content="Calculate SHA-256 and other hashes for a file locally in your browser." />
+  <link rel="canonical" href="https://fromgravelhill.ca/checksum/">
+  <meta property="og:title" content="Checksum Tool">
+  <meta property="og:description" content="Calculate SHA-256 and other hashes for a file locally in your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fromgravelhill.ca/checksum/">
+  <meta property="og:site_name" content="From Gravel Hill Enterprises">
+  <meta property="og:image" content="https://fromgravelhill.ca/assets/images/landing.png">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#0f172a" />
   <style>
     :root {
@@ -127,6 +135,8 @@
     .warn { color: var(--warn); }
 
     progress { width: 100%; height: 14px; }
+    label.small { display: block; }
+    #hash { overflow-wrap: anywhere; word-break: break-word; }
 
     footer { margin-top: 28px; padding-top: 14px; border-top: 1px dashed var(--line); color: var(--muted); font-size: .9rem; }
   </style>
@@ -146,11 +156,11 @@
 
     <section class="card">
       <div class="drop" id="drop">
-        <strong>Choose a file</strong>
+        <label for="file"><strong>Choose a file</strong></label>
         <input id="file" type="file" />
         <div class="row">
           <div style="flex:1;">
-            <div class="small">Algorithm</div>
+            <label class="small" for="alg">Algorithm</label>
             <select id="alg">
               <option value="SHA-256" selected>SHA-256 (recommended)</option>
               <option value="SHA-512">SHA-512</option>
@@ -159,7 +169,7 @@
             </select>
           </div>
           <div style="flex:1;">
-            <div class="small">Expected hash (optional)</div>
+            <label class="small" for="expected">Expected hash (optional)</label>
             <input id="expected" type="text" placeholder="Paste expected hash to compare…" spellcheck="false" />
           </div>
         </div>
@@ -167,6 +177,7 @@
         <div class="row">
           <button class="btn" id="calc" type="button" disabled>Calculate</button>
           <button class="btn ghost" id="copy" type="button" disabled>Copy hash</button>
+          <span class="small" id="copied" role="status" aria-live="polite"></span>
           <a class="btn ghost" href="/checksums/">How to verify downloads</a>
         </div>
 
@@ -179,7 +190,7 @@
           <div class="k" id="hash" style="margin-top:6px; user-select:all;">-</div>
           <div class="small" style="margin-top:10px;">
             <span class="status" id="status">Status:</span>
-            <span id="cmp" class="warn">No file selected.</span>
+            <span id="cmp" class="warn" role="status" aria-live="polite">No file selected.</span>
           </div>
         </div>
       </div>
@@ -201,6 +212,9 @@
   </div>
 
 <script>
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+<script>
 (function () {
   const fileEl = document.getElementById('file');
   const algEl = document.getElementById('alg');
@@ -211,6 +225,7 @@
   const cmpEl = document.getElementById('cmp');
   const prog = document.getElementById('prog');
   const drop = document.getElementById('drop');
+  const copiedEl = document.getElementById('copied');
 
   function hex(buffer) {
     const bytes = new Uint8Array(buffer);
@@ -221,6 +236,23 @@
 
   function normalizeHash(s) {
     return (s || '').toString().trim().toLowerCase().replace(/\s+/g, '').replace(/^0x/, '');
+  }
+
+  function validExpectedHash(hash, algorithm) {
+    const lengths = { 'SHA-1': 40, 'SHA-256': 64, 'SHA-384': 96, 'SHA-512': 128 };
+    return new RegExp('^[a-f0-9]{' + lengths[algorithm] + '}$', 'i').test(hash);
+  }
+
+  function compareStatus(current) {
+    const expected = normalizeHash(expectedEl.value);
+    if (!expected) {
+      setStatus('Hash calculated. Paste an expected hash to compare.', 'warn');
+    } else if (!validExpectedHash(expected, algEl.value)) {
+      setStatus('Expected hash is not a valid ' + algEl.value + ' hexadecimal value.', 'warn');
+    } else {
+      const ok = current === expected;
+      setStatus(ok ? 'MATCH - file hash matches expected value.' : 'NO MATCH - do not trust this file.', ok ? 'match' : 'nomatch');
+    }
   }
 
   function setStatus(text, cls) {
@@ -245,7 +277,6 @@
     prog.value = 99;
     const hash = await crypto.subtle.digest(alg, buf);
     prog.value = 100;
-    setTimeout(() => { prog.style.display = 'none'; }, 400);
     return hex(hash);
   }
 
@@ -264,18 +295,13 @@
       hashEl.textContent = h;
       copyBtn.disabled = false;
 
-      const expected = normalizeHash(expectedEl.value);
-      if (!expected) {
-        setStatus('Hash calculated. Paste an expected hash to compare.', 'warn');
-      } else {
-        const ok = normalizeHash(h) === expected;
-        setStatus(ok ? 'MATCH - file hash matches expected value.' : 'NO MATCH - do not trust this file.', ok ? 'match' : 'nomatch');
-      }
+      compareStatus(normalizeHash(h));
     } catch (e) {
       hashEl.textContent = '-';
       setStatus('Error hashing file. Try a different browser or use command-line methods.', 'nomatch');
     } finally {
       calcBtn.disabled = false;
+      prog.style.display = 'none';
     }
   }
 
@@ -292,14 +318,11 @@
     if (!text || text === '-' || text === 'Working…') return;
     try {
       await navigator.clipboard.writeText(text);
-      setStatus('Copied hash to clipboard.', 'match');
-      setTimeout(() => {
-        const expected = normalizeHash(expectedEl.value);
-        if (!expected) setStatus('Hash calculated. Paste an expected hash to compare.', 'warn');
-      }, 1200);
+      copiedEl.textContent = 'Copied to clipboard.';
     } catch (e) {
-      setStatus('Copy failed. Select and copy manually.', 'warn');
+      copiedEl.textContent = 'Copy failed. Select and copy manually.';
     }
+    setTimeout(() => { copiedEl.textContent = ''; }, 2000);
   }
 
   ['dragenter','dragover'].forEach(evt => drop.addEventListener(evt, (e) => {
@@ -318,15 +341,13 @@
   });
 
   fileEl.addEventListener('change', updateButtons);
-  algEl.addEventListener('change', () => { if (fileEl.files.length) updateButtons(); });
-  expectedEl.addEventListener('input', () => {
-    const expected = normalizeHash(expectedEl.value);
+  algEl.addEventListener('change', () => { if (fileEl.files.length) updateButtons(); copiedEl.textContent = ''; });
+  function refreshComparison() {
     const current = normalizeHash(hashEl.textContent);
-    if (current && current !== '-' && current !== 'working…' && expected) {
-      const ok = current === expected;
-      setStatus(ok ? 'MATCH - file hash matches expected value.' : 'NO MATCH - do not trust this file.', ok ? 'match' : 'nomatch');
-    } else if (fileEl.files.length) setStatus('Ready.', 'warn');
-  });
+    if (current && current !== '-' && current !== 'working…') compareStatus(current);
+    else if (fileEl.files.length) setStatus('Ready.', 'warn');
+  }
+  expectedEl.addEventListener('input', refreshComparison);
 
   calcBtn.addEventListener('click', calculate);
   copyBtn.addEventListener('click', copyHash);

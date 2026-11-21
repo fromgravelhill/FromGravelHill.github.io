@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Check links
         uses: lycheeverse/lychee-action@v2
@@ -29,7 +29,7 @@ jobs:
             --no-progress
             --verbose
             --accept 200,206
-            --exclude-mail
+            --exclude '^mailto:'
             --root-dir .
             './**/*.html'
             './**/*.md'

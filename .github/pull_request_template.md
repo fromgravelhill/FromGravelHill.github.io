@@ -1,29 +1,33 @@
 ## Summary
-- Brief overview of changes
 
-## Why
-- Reason/motivation for the change
+Describe what changed.
 
-## Changes
-- Bulleted list of files/areas touched
+## Reason
 
-## Screenshots
-<!-- optional -->
+Explain why the change is needed.
 
-## How to test locally
-```bash
-# For Jekyll sites
-bundle install
-bundle exec jekyll serve --livereload
+## Files Changed
 
-# For static sites
-python -m http.server 4000
-# or
-npx http-server -p 4000 -c-1
-```
+List the main files affected.
 
-## Checklist
-- [ ] Builds locally without errors
-- [ ] Content and links reviewed
-- [ ] Spelling/grammar pass
-- [ ] Licensing notes updated where applicable
+## Testing
+
+- [ ] Site opened locally
+- [ ] Updated pages work on desktop
+- [ ] Updated pages work on mobile
+- [ ] Internal links checked
+- [ ] Keyboard navigation checked
+- [ ] Light and dark modes checked where applicable
+- [ ] JavaScript console checked for errors
+- [ ] Images and assets load correctly
+- [ ] No sensitive information added to the repository
+
+## Deployment
+
+- [ ] GitHub Actions checks pass
+- [ ] Screenshots included for visible changes
+- [ ] Live pages checked after publishing
+
+## Additional Notes
+
+Describe any limitations or follow-up work.

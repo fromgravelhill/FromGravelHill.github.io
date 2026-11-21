@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SSH & GitHub Keys · From Gravel Hill Enterprises</title>
   <meta name="description" content="How to create SSH keys and connect to GitHub safely on Windows, Linux, and macOS." />
+  <link rel="canonical" href="https://fromgravelhill.ca/ssh-github/">
+  <meta property="og:title" content="SSH & GitHub Keys">
+  <meta property="og:description" content="How to create SSH keys and connect to GitHub safely on Windows, Linux, and macOS.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fromgravelhill.ca/ssh-github/">
+  <meta property="og:site_name" content="From Gravel Hill Enterprises">
+  <meta property="og:image" content="https://fromgravelhill.ca/assets/images/landing.png">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#0f172a" />
   <style>
     :root {
@@ -137,7 +145,7 @@
         <ul>
           <li>Press Enter to accept the default file location.</li>
           <li>Set a passphrase when asked (recommended).</li>
-          <li>Your keys are typically saved in: <span class="k">%USERPROFILE%\.ssh\</span></li>
+          <li>Your keys are typically saved in: <span class="k">$env:USERPROFILE\.ssh\</span></li>
         </ul>
       </details>
 
@@ -167,6 +175,7 @@
 
       <details style="margin-top:12px;" open>
         <summary>Windows 11 (PowerShell)</summary>
+        <p class="small" style="margin:10px 0 0;">Open PowerShell <strong>as Administrator</strong> to configure and start the SSH agent service (the first two commands). Once the service is running, use a normal PowerShell window to add your key.</p>
         <pre class="k">Get-Service ssh-agent | Set-Service -StartupType Automatic
 Start-Service ssh-agent
 ssh-add $env:USERPROFILE\.ssh\id_ed25519</pre>
@@ -199,7 +208,7 @@ ssh-add ~/.ssh/id_ed25519</pre>
     <section class="card" id="test">
       <h2 style="margin:0 0 6px; font-size:1.15rem;">4) Test the connection</h2>
       <p class="small" style="margin:0;">
-        The first time, you may be asked to trust GitHub’s host key (normal).
+        The first time, you may be asked to trust GitHub’s host key (normal). Before accepting it, compare the fingerprint shown with the ones published in <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints" rel="noopener">GitHub’s official documentation</a>.
       </p>
       <pre class="k">ssh -T git@github.com</pre>
 
@@ -252,5 +261,8 @@ Host github-work
       <div style="margin-top:6px;">Return to <a href="/">fromgravelhill.ca</a></div>
     </footer>
   </div>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>

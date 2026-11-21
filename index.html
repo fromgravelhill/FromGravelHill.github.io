@@ -3,12 +3,37 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>From Gravel Hill Enterprises</title>
-  <meta name="description" content="From Gravel Hill Enterprises: the hub for Marc MacArthur’s projects, resources, and services." />
-  <meta property="og:title" content="From Gravel Hill Enterprises" />
-  <meta property="og:description" content="The hub for my projects, resources, and services." />
-  <meta property="og:type" content="website" />
+  <title>From Gravel Hill Enterprises | Web Design, Bookkeeping &amp; Resources</title>
+  <meta name="description" content="From Gravel Hill Enterprises offers practical web design and bookkeeping support in Prince Edward Island, alongside Gospel resources, personal projects, and useful tools." />
+  <link rel="canonical" href="https://fromgravelhill.ca/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="From Gravel Hill Enterprises">
+  <meta property="og:title" content="From Gravel Hill Enterprises">
+  <meta property="og:description" content="Web design, bookkeeping, Gospel resources, personal projects, and practical tools.">
+  <meta property="og:url" content="https://fromgravelhill.ca/">
+  <meta property="og:image" content="https://fromgravelhill.ca/assets/images/landing.png">
+  <meta property="og:image:alt" content="From Gravel Hill Enterprises">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "From Gravel Hill Enterprises",
+    "url": "https://fromgravelhill.ca/",
+    "email": "info@fromgravelhill.ca",
+    "description": "Web design, bookkeeping support, and practical website resources."
+  }
+  </script>
   <meta name="theme-color" content="#0f172a" />
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("fgh-theme");
+        if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
   <style>
     :root {
       --bg: #0b1020;
@@ -224,7 +249,6 @@
     .card {
       position: relative;
       overflow: hidden;
-      min-height: 100%;
       display: flex;
       flex-direction: column;
       border-radius: 20px;
@@ -330,8 +354,8 @@
     }
 
     .gospel-block .card::after {
-      border-radius: 999px;
       border: 1px solid var(--section-accent);
+      border-radius: 0 100% 0 100%;
     }
 
     .services-block .card::after {
@@ -353,10 +377,7 @@
 
     .personal-block .card::after {
       border-radius: 999px;
-      border: 1px solid var(--section-accent);
-      box-shadow: 0 0 0 12px rgba(0,0,0,0);
-      outline: 1px solid rgba(184,149,255,.16);
-      outline-offset: -12px;
+      background: repeating-radial-gradient(circle, transparent 0 9px, var(--section-accent) 9px 10px);
     }
 
     .personal-block .card::before {
@@ -381,13 +402,14 @@
     }
 
     .tools-block .card::after {
-      border-radius: 999px;
-      border: 1px dashed var(--section-accent);
-      width: 78px;
-      height: 78px;
-      right: -20px;
-      bottom: -20px;
-      opacity: .14;
+      border-radius: 10px;
+      background-image: radial-gradient(var(--section-accent) 1.6px, transparent 1.8px);
+      background-size: 12px 12px;
+      width: 84px;
+      height: 84px;
+      right: -14px;
+      bottom: -14px;
+      opacity: .22;
     }
 
     .portfolio-block {
@@ -402,18 +424,19 @@
     }
 
     .portfolio-block .card::after {
-      border-radius: 999px;
-      border: 1px solid var(--section-accent);
+      border-radius: 14px;
+      background: repeating-linear-gradient(45deg, var(--section-accent) 0 2px, transparent 2px 9px);
       width: 96px;
       height: 96px;
-      right: -30px;
-      bottom: -30px;
-      opacity: .15;
+      right: -22px;
+      bottom: -22px;
+      opacity: .2;
     }
 
     .portfolio-card .portfolio-thumb {
       display: block;
       width: 100%;
+      height: auto;
       aspect-ratio: 16 / 9;
       object-fit: cover;
       border-bottom: 1px solid var(--card-border);
@@ -425,7 +448,7 @@
       flex-direction: column;
       gap: 0;
       padding: 16px 18px 18px;
-      min-height: 100%;
+      flex: 1 1 auto;
     }
 
     .portfolio-card .meta {
@@ -516,6 +539,39 @@
       text-decoration-thickness: 1px;
       text-underline-offset: 2px;
     }
+
+    a.sr-only:focus-visible {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      width: auto;
+      height: auto;
+      margin: 0;
+      padding: 12px 18px;
+      overflow: visible;
+      clip: auto;
+      white-space: normal;
+      z-index: 1000;
+      color: #08111f;
+      background: #7dd3fc;
+      border-radius: 8px;
+      outline: 2px solid currentColor;
+      outline-offset: 3px;
+    }
+
+    @media (max-width: 720px) {
+      body { background-attachment: scroll; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card,
+      .btn,
+      .theme-switch .slider,
+      .theme-switch .slider::before { transition: none; }
+
+      .card:hover,
+      .card:focus-within { transform: none; }
+    }
   </style>
 </head>
 <body>
@@ -523,19 +579,36 @@
   <div class="wrap">
     <header>
       <div class="brand-mark">
-        <img id="site-logo" src="assets/images/landing.png" alt="From Gravel Hill Enterprises" />
+        <img id="site-logo" src="/assets/images/landing.png" alt="" />
       </div>
-      <h1>Welcome</h1>
-      <p class="lead">I’m Marc MacArthur. This is the main hub for From Gravel Hill Enterprises</p>
+      <h1>From Gravel Hill Enterprises</h1>
+      <p class="lead">Welcome. I’m Marc MacArthur, and this is the main hub for my services, Gospel resources, personal projects, and practical tools.</p>
     </header>
 
-    <main id="content" class="sections" aria-live="polite">
+    <main id="content" class="sections">
       <section class="section-block services-block" style="--section-accent:#54aef8; --section-ring:rgba(84,174,248,.28);" aria-labelledby="services-title">
         <div class="section-head">
           <h2 id="services-title" class="section-title">Services</h2>
           <p class="section-lead">Professional offerings and practical support</p>
         </div>
-        <div class="section-grid" id="services" aria-live="polite"></div>
+        <div class="section-grid" id="services">
+    <article class="card">
+      <h3>Web Design from Gravel Hill</h3>
+      <p>Simple sites, WordPress builds, maintenance, and domain setup</p>
+      <div class="meta">Website design and practical support</div>
+      <div class="actions">
+        <a class="btn" href="/web-design/">View</a>
+      </div>
+    </article>
+    <article class="card">
+      <h3>Bookkeeping from Gravel Hill</h3>
+      <p>Bookkeeping support for small business records, software, and upkeep</p>
+      <div class="meta">Bookkeeping and record support</div>
+      <div class="actions">
+        <a class="btn" href="/bookkeeping/">View</a>
+      </div>
+    </article>
+      </div>
       </section>
 
       <section class="section-block gospel-block" style="--section-accent:#60cf85; --section-ring:rgba(96,207,133,.24);" aria-labelledby="gospel-title">
@@ -543,7 +616,33 @@
           <h2 id="gospel-title" class="section-title">Gospel</h2>
           <p class="section-lead">Ministry-focused resources and hymn materials</p>
         </div>
-        <div class="section-grid" id="gospel" aria-live="polite"></div>
+        <div class="section-grid cols-3" id="gospel">
+    <article class="card">
+      <h3>The Gospel from Gravel Hill</h3>
+      <p>Articles, audio, tracts, charts, and books</p>
+      <div class="meta">gospel.fromgravelhill.ca</div>
+      <div class="actions">
+        <a class="btn" href="https://gospel.fromgravelhill.ca/" rel="noopener">Visit</a>
+      </div>
+    </article>
+    <article class="card">
+      <h3>Hymns from Gravel Hill</h3>
+      <p>Hymn books and music resources used by my local assembly</p>
+      <div class="meta">hymns.fromgravelhill.ca</div>
+      <div class="actions">
+        <a class="btn" href="https://hymns.fromgravelhill.ca/" rel="noopener">Visit</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <h3>Rosebank Gospel Hall App</h3>
+      <p>Free Android app for messages, video and audio from Rosebank Gospel Hall</p>
+      <div class="meta">Android app, free</div>
+      <div class="actions">
+        <a class="btn" href="/rosebank/">View</a>
+      </div>
+    </article>
+      </div>
       </section>
 
       <section class="section-block personal-block" style="--section-accent:#b895ff; --section-ring:rgba(184,149,255,.24);" aria-labelledby="personal-title">
@@ -551,7 +650,32 @@
           <h2 id="personal-title" class="section-title">Personal</h2>
           <p class="section-lead">Writing, background, and personal-interest projects</p>
         </div>
-        <div class="section-grid" id="personal" aria-live="polite"></div>
+        <div class="section-grid cols-3" id="personal">
+    <article class="card">
+      <h3>Musings from Gravel Hill</h3>
+      <p>Personal writing, poems, and notes</p>
+      <div class="meta">blog.fromgravelhill.ca</div>
+      <div class="actions">
+        <a class="btn" href="https://blog.fromgravelhill.ca/" rel="noopener">Visit</a>
+      </div>
+    </article>
+    <article class="card">
+      <h3>History</h3>
+      <p>Local history projects, articles, and resources</p>
+      <div class="meta">history.fromgravelhill.ca</div>
+      <div class="actions">
+        <a class="btn" href="https://history.fromgravelhill.ca/" rel="noopener">Visit</a>
+      </div>
+    </article>
+    <article class="card">
+      <h3>About Me</h3>
+      <p>Background information and where to find me online</p>
+      <div class="meta">about.fromgravelhill.ca</div>
+      <div class="actions">
+        <a class="btn" href="https://about.fromgravelhill.ca/" rel="noopener">Visit</a>
+      </div>
+    </article>
+      </div>
       </section>
 
       <section class="section-block tools-block" style="--section-accent:#f0ad3b; --section-ring:rgba(240,173,59,.22);" aria-labelledby="tools-title">
@@ -559,15 +683,117 @@
           <h2 id="tools-title" class="section-title">Tools &amp; Notes</h2>
           <p class="section-lead">Small utilities and reference pages hosted here</p>
         </div>
-        <div class="section-grid" id="tools" aria-live="polite"></div>
+        <div class="section-grid cols-3" id="tools">
+    <article class="card">
+      <h3>QR Code Generator</h3>
+      <p>Generate QR codes for URLs or text</p>
+      <div class="actions">
+        <a class="btn" href="/qr/">Open</a>
+      </div>
+    </article>
+    <article class="card">
+      <h3>My Public Key</h3>
+      <p>My OpenPGP public key</p>
+      <div class="actions">
+        <a class="btn" href="/keys/">Open</a>
+      </div>
+    </article>
+    <article class="card">
+      <h3>Email Encryption (OpenPGP)</h3>
+      <p>How to send signed or encrypted email</p>
+      <div class="actions">
+        <a class="btn" href="/email-encryption/">Open</a>
+      </div>
+    </article>
+    <article class="card">
+      <h3>SSH &amp; GitHub Keys</h3>
+      <p>Generate SSH keys for GitHub</p>
+      <div class="actions">
+        <a class="btn" href="/ssh-github/">Open</a>
+      </div>
+    </article>
+    <article class="card">
+      <h3>Checksum Tool</h3>
+      <p>Calculate SHA-256 and other hashes</p>
+      <div class="actions">
+        <a class="btn" href="/checksum/">Open</a>
+      </div>
+    </article>
+    <article class="card">
+      <h3>Verify Downloads</h3>
+      <p>Verify downloads using checksums and signatures</p>
+      <div class="actions">
+        <a class="btn" href="/checksums/">Open</a>
+      </div>
+    </article>
+      </div>
       </section>
 
       <section class="section-block portfolio-block" style="--section-accent:#ff879c; --section-ring:rgba(255,135,156,.24);" aria-labelledby="portfolio-title">
         <div class="section-head">
           <h2 id="portfolio-title" class="section-title">Previous Work Examples</h2>
-          <p class="section-lead">A few website projects I have designed or worked on</p>
+          <p class="section-lead">A few websites and apps I have designed or worked on</p>
         </div>
-        <div class="section-grid" id="portfolio" aria-live="polite"></div>
+        <div class="section-grid cols-3" id="portfolio">
+    <article class="card portfolio-card">
+      <img class="portfolio-thumb" src="/assets/images/examples/oleary-gospel-hall.webp" alt="Screenshot of the O’Leary Gospel Hall website" width="1200" height="675" loading="lazy" decoding="async">
+      <div class="portfolio-content">
+        <h3>O’Leary Gospel Hall</h3>
+        <p>Assembly website and gospel hall information</p>
+        <div class="meta">olearygospelhall.ca</div>
+        <div class="actions">
+          <a class="btn" href="https://olearygospelhall.ca/" rel="noopener">Visit</a>
+        </div>
+      </div>
+    </article>
+    <article class="card portfolio-card">
+      <img class="portfolio-thumb" src="/assets/images/examples/rosebank-gospel-hall.webp" alt="Screenshot of the Rosebank Gospel Hall website" width="1200" height="675" loading="lazy" decoding="async">
+      <div class="portfolio-content">
+        <h3>Rosebank Gospel Hall</h3>
+        <p>Assembly website and local meeting information</p>
+        <div class="meta">rosebankgospelhall.ca</div>
+        <div class="actions">
+          <a class="btn" href="https://rosebankgospelhall.ca/" rel="noopener">Visit</a>
+        </div>
+      </div>
+    </article>
+    <article class="card portfolio-card">
+      <img class="portfolio-thumb" src="/assets/images/examples/jcmw.webp" alt="Screenshot of the JCMW website" width="1200" height="675" loading="lazy" decoding="async">
+      <div class="portfolio-content">
+        <h3>JCMW</h3>
+        <p>A site build and layout project hosted under From Gravel Hill Enterprises</p>
+        <div class="meta">jcmw.fromgravelhill.ca</div>
+        <div class="actions">
+          <a class="btn" href="https://jcmw.fromgravelhill.ca/" rel="noopener">Visit</a>
+        </div>
+      </div>
+    </article>
+    <article class="card portfolio-card">
+      <img class="portfolio-thumb" src="/assets/images/examples/high-arctic-good-news.webp" alt="Screenshot of the High Arctic Good News website" width="1200" height="675" loading="lazy" decoding="async">
+      <div class="portfolio-content">
+        <h3>High Arctic Good News</h3>
+        <p>A gospel-focused site project with scripture and media resources</p>
+        <div class="meta">higharcticgoodnews.ca</div>
+        <div class="actions">
+          <a class="btn" href="https://higharcticgoodnews.ca/" rel="noopener">Visit</a>
+        </div>
+      </div>
+    </article>
+    <article class="card portfolio-card">
+      <picture>
+        <source srcset="/assets/images/examples/rosebank-gospel-hall-app.webp" type="image/webp">
+        <img class="portfolio-thumb" src="/assets/images/examples/rosebank-gospel-hall-app.png" alt="Rosebank Gospel Hall Android app: free for Android" width="1200" height="675" loading="lazy" decoding="async">
+      </picture>
+      <div class="portfolio-content">
+        <h3>Rosebank Gospel Hall App</h3>
+        <p>Free Android app for messages, video and audio from Rosebank Gospel Hall</p>
+        <div class="meta">Android app</div>
+        <div class="actions">
+          <a class="btn" href="/rosebank/">View</a>
+        </div>
+      </div>
+    </article>
+      </div>
       </section>
     </main>
 
@@ -586,175 +812,8 @@
   </div>
 
   <script>
-    const services = [
-      {
-        name: "Web Design from Gravel Hill",
-        url: "/web-design/",
-        desc: "Simple sites, WordPress builds, maintenance, and domain setup",
-        meta: "Website design and practical support"
-      },
-      {
-        name: "Bookkeeping from Gravel Hill",
-        url: "/bookkeeping/",
-        desc: "Bookkeeping support for small business records, software, and upkeep",
-        meta: "Bookkeeping and record support"
-      }
-    ];
-
-    const gospel = [
-      {
-        name: "The Gospel from Gravel Hill",
-        url: "https://gospel.fromgravelhill.ca/",
-        desc: "Articles, audio, tracts, charts, and books",
-        meta: "gospel.fromgravelhill.ca"
-      },
-      {
-        name: "Hymns from Gravel Hill",
-        url: "https://hymns.fromgravelhill.ca/",
-        desc: "Hymn books and music resources used by my local assembly",
-        meta: "hymns.fromgravelhill.ca"
-      }
-    ];
-
-    const personal = [
-      {
-        name: "Musings from Gravel Hill",
-        url: "https://blog.fromgravelhill.ca/",
-        desc: "Personal writing, poems, and notes",
-        meta: "blog.fromgravelhill.ca"
-      },
-      {
-        name: "History",
-        url: "https://history.fromgravelhill.ca/",
-        desc: "Local history projects, articles, and resources",
-        meta: "history.fromgravelhill.ca"
-      },
-      {
-        name: "About Me",
-        url: "https://about.fromgravelhill.ca/",
-        desc: "Background information and where to find me online",
-        meta: "about.fromgravelhill.ca"
-      }
-    ];
-
-    const tools = [
-      {
-        name: "QR Code Generator",
-        url: "/qr/",
-        desc: "Generate QR codes for URLs or text",
-        meta: ""
-      },
-      {
-        name: "My Public Key",
-        url: "/keys/",
-        desc: "My OpenPGP public key",
-        meta: ""
-      },
-      {
-        name: "Email Encryption (OpenPGP)",
-        url: "/email-encryption/",
-        desc: "How to send signed or encrypted email",
-        meta: ""
-      },
-      {
-        name: "SSH & GitHub Keys",
-        url: "/ssh-github/",
-        desc: "Generate SSH keys for GitHub",
-        meta: ""
-      },
-      {
-        name: "Checksum Tool",
-        url: "/checksum/",
-        desc: "Calculate SHA-256 and other hashes",
-        meta: ""
-      },
-      {
-        name: "Verify Downloads",
-        url: "/checksums/",
-        desc: "Verify downloads using checksums and signatures",
-        meta: ""
-      }
-    ];
-
-    const portfolio = [
-      {
-        name: "O’Leary Gospel Hall",
-        url: "https://olearygospelhall.ca/",
-        desc: "Assembly website and gospel hall information",
-        meta: "olearygospelhall.ca",
-        image: "assets/images/examples/oleary-gospel-hall.png"
-      },
-      {
-        name: "Rosebank Gospel Hall",
-        url: "https://rosebankgospelhall.ca/",
-        desc: "Assembly website and local meeting information",
-        meta: "rosebankgospelhall.ca",
-        image: "assets/images/examples/rosebank-gospel-hall.png"
-      },
-      {
-        name: "JCMW",
-        url: "https://jcmw.fromgravelhill.ca/",
-        desc: "A site build and layout project hosted under From Gravel Hill Enterprises",
-        meta: "jcmw.fromgravelhill.ca",
-        image: "assets/images/examples/jcmw.png"
-      },
-      {
-        name: "High Arctic Good News",
-        url: "https://higharcticgoodnews.ca/",
-        desc: "A gospel-focused site project with scripture and media resources",
-        meta: "higharcticgoodnews.ca",
-        image: "assets/images/examples/high-arctic-good-news.png"
-      }
-    ];
-
     const year = document.getElementById("year");
     year.textContent = new Date().getFullYear();
-
-    function applyGridColumns(el, count) {
-      if (!el) return;
-      el.classList.toggle("cols-3", count >= 3);
-    }
-
-    function renderCards(targetId, list, buttonLabel) {
-      const el = document.getElementById(targetId);
-      if (!el) return;
-      applyGridColumns(el, list.length);
-      el.innerHTML = list.map(item => `
-        <article class="card" tabindex="0">
-          <h3>${item.name}</h3>
-          <p>${item.desc}</p>
-          <div class="meta">${item.meta || "&nbsp;"}</div>
-          <div class="actions">
-            <a class="btn" href="${item.url}" rel="noopener">${buttonLabel}</a>
-          </div>
-        </article>
-      `).join("");
-    }
-
-    function renderPortfolio(targetId, list) {
-      const el = document.getElementById(targetId);
-      if (!el) return;
-      applyGridColumns(el, list.length);
-      el.innerHTML = list.map(item => `
-        <article class="card portfolio-card" tabindex="0">
-          <img class="portfolio-thumb" src="${item.image}" alt="${item.name} preview image" loading="lazy" />
-          <div class="portfolio-content">
-            <h3>${item.name}</h3>
-            <p>${item.desc}</p>
-            <div class="meta">${item.meta}</div>
-            <div class="actions">
-              <a class="btn" href="${item.url}" rel="noopener">Visit</a>
-            </div>
-          </div>
-        </article>
-      `).join("");
-    }
-
-    renderCards("services", services, "View");
-    renderCards("gospel", gospel, "Visit");
-    renderCards("personal", personal, "Visit");
-    renderCards("tools", tools, "Open");
-    renderPortfolio("portfolio", portfolio);
 
     const root = document.documentElement;
     const toggle = document.getElementById("theme-toggle");
@@ -762,26 +821,20 @@
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
 
     function preferredTheme() {
-      const savedTheme = localStorage.getItem("fgh-theme");
+      let savedTheme = null;
+      try { savedTheme = localStorage.getItem("fgh-theme"); } catch (e) {}
       if (savedTheme === "light" || savedTheme === "dark") return savedTheme;
       return mq.matches ? "dark" : "light";
     }
 
     function setLogo(theme) {
-      const candidates = theme === "dark"
-        ? ["assets/images/logo-dark.png", "assets/images/logo-white.png", "assets/images/landing.png"]
-        : ["assets/images/logo-light.png", "assets/images/logo-black.png", "assets/images/landing.png"];
-
-      let index = 0;
-      function tryNext() {
-        if (index >= candidates.length) return;
-        logo.onerror = () => {
-          index += 1;
-          tryNext();
-        };
-        logo.src = candidates[index];
-      }
-      tryNext();
+      logo.onerror = () => {
+        logo.onerror = null;
+        logo.src = "/assets/images/landing.png";
+      };
+      logo.src = theme === "dark"
+        ? "/assets/images/logo-white.png"
+        : "/assets/images/logo-black.png";
     }
 
     function applyTheme(theme) {
@@ -797,12 +850,14 @@
 
     toggle.addEventListener("change", () => {
       const theme = toggle.checked ? "dark" : "light";
-      localStorage.setItem("fgh-theme", theme);
+      try { localStorage.setItem("fgh-theme", theme); } catch (e) {}
       applyTheme(theme);
     });
 
     mq.addEventListener("change", (event) => {
-      if (localStorage.getItem("fgh-theme")) return;
+      let saved = null;
+      try { saved = localStorage.getItem("fgh-theme"); } catch (e) {}
+      if (saved) return;
       applyTheme(event.matches ? "dark" : "light");
     });
   </script>

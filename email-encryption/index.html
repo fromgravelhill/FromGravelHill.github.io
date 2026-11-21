@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Email Encryption (OpenPGP) · From Gravel Hill Enterprises</title>
   <meta name="description" content="A practical step-by-step guide for sending Marc MacArthur signed and encrypted email using OpenPGP." />
+  <link rel="canonical" href="https://fromgravelhill.ca/email-encryption/">
+  <meta property="og:title" content="Email Encryption (OpenPGP)">
+  <meta property="og:description" content="A practical step-by-step guide for sending Marc MacArthur signed and encrypted email using OpenPGP.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fromgravelhill.ca/email-encryption/">
+  <meta property="og:site_name" content="From Gravel Hill Enterprises">
+  <meta property="og:image" content="https://fromgravelhill.ca/assets/images/landing.png">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#0f172a" />
   <style>
     :root {
@@ -230,9 +238,9 @@
           </details>
 
           <details style="margin-top:12px;">
-            <summary>Windows (optional): Gpg4win + any mail client</summary>
+            <summary>Windows (optional): Gpg4win for key management</summary>
             <ul>
-              <li>Gpg4win provides GnuPG plus tools like Kleopatra for key management.</li>
+              <li>Gpg4win provides GnuPG plus tools like Kleopatra for key management. Use it for Windows key management, together with a compatible mail client when you want email integration (Thunderbird is the simplest choice).</li>
               <li>Best for: you already use Kleopatra, or you want a separate key manager.</li>
               <li>Download: <a href="https://www.gpg4win.org/">gpg4win.org</a></li>
             </ul>
@@ -472,6 +480,9 @@ gpg --fingerprint "Marc MacArthur"</pre>
         }
       });
     })();
+  </script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
